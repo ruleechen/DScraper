@@ -19,7 +19,7 @@ namespace DScraper.ConsoleTest
             });
 
             var script = root + @"\scripts\test.js";
-            var result = scraper.Execute(script);
+            var result = scraper.Execute(script, new { test = 1 });
             Console.WriteLine(result);
         }
     }

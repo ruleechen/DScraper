@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 namespace DScraper
 {
@@ -39,18 +40,22 @@ namespace DScraper
             }
         }
 
-        public string Execute(string scriptPath)
+        public string Execute(string scriptPath, object args = null)
         {
-            var command = "casperjs " + scriptPath;
+            var arguments = JsonConvert.SerializeObject(args ?? new { });
+
+            arguments = System.Web.HttpUtility.UrlEncode(arguments);
+
+            var command = string.Format("casperjs {0} {1}", scriptPath, arguments);
 
             var result = ExecutePythonScript(command);
 
             return result;
         }
 
-        public T Get<T>(string scriptPath)
+        public T Get<T>(string scriptPath, object args = null)
         {
-            var result = Execute(scriptPath);
+            var result = Execute(scriptPath, args);
 
             return JsonConvert.DeserializeObject<T>(result);
         }
