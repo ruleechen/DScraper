@@ -11,12 +11,7 @@ namespace DScraper.ConsoleTest
         static void Main(string[] args)
         {
             var root = AppDomain.CurrentDomain.BaseDirectory;
-            var scraper = new CasperjsScraper(new CasperjsSettings
-            {
-                PythonExePath = (@"D:\Program Files\Python\Python35-32\python.exe"),
-                PhantomjsExePath = (root + @"\tools\phantomjs\phantomjs.exe"),
-                CasperjsExePath = (root + @"\tools\casperjs\bin\casperjs.exe")
-            });
+            var scraper = new CasperjsScraper();
 
             var script = root + @"\scripts\test.js";
             var result = scraper.Execute(script, new { test = 1 });
