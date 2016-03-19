@@ -41,6 +41,8 @@ casper.start('http://www.cnblogs.com/', function (response) {
     this.evaluate(function () {
         $('#zzk_q').val('rulee');
     });
+
+    this.echo('rulee');
 });
 
 casper.thenClick('.search_btn', function () {
@@ -48,7 +50,7 @@ casper.thenClick('.search_btn', function () {
     this.echo(this.getCurrentUrl());
 
     var value = this.evaluate(function () {
-        return $('A').first().text();
+        return $('.searchItemTitle').text();
     });
 
     this.echo(value);

@@ -48,7 +48,7 @@ namespace DScraper
 
             arguments = HttpUtility.UrlEncode(arguments);
 
-            var command = string.Format("casperjs {0} {1}", scriptPath, arguments);
+            var command = string.Format("casperjs --output-encoding=GB2312 {0} {1}", scriptPath, arguments);
 
             var result = ExecutePythonScript(command);
 
