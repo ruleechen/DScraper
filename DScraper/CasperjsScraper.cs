@@ -11,7 +11,7 @@ namespace DScraper
         private CasperjsSettings _settings;
 
         public CasperjsScraper()
-            : this(CasperjsSettings.Default)
+            : this(CasperjsSettings.FromConfig)
         {
         }
 

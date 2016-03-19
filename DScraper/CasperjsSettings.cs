@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Configuration;
 
 namespace DScraper
 {
@@ -9,32 +10,23 @@ namespace DScraper
         public string PhantomjsExePath { get; set; }
         public string CasperjsExePath { get; set; }
 
-        private static CasperjsSettings _default;
-        public static CasperjsSettings Default
+        private static CasperjsSettings _fromConfig;
+        public static CasperjsSettings FromConfig
         {
             get
             {
-                if (_default == null)
+                if (_fromConfig == null)
                 {
-                    var rootPath = AppDomain.CurrentDomain.BaseDirectory;
-
-                    Initialize(rootPath);
-
-                    _default = new CasperjsSettings
+                    _fromConfig = new CasperjsSettings
                     {
-                        PythonExePath = Path.Combine(rootPath, @"\tools\python\python.exe"),
-                        PhantomjsExePath = Path.Combine(rootPath, @"\tools\phantomjs\phantomjs.exe"),
-                        CasperjsExePath = Path.Combine(rootPath, @"\tools\casperjs\bin\casperjs.exe")
+                        PythonExePath = ConfigSource.Current.AppSettings.Settings["CasperjsScraper.PythonExePath"].Value,
+                        PhantomjsExePath = ConfigSource.Current.AppSettings.Settings["CasperjsScraper.PhantomjsExePath"].Value,
+                        CasperjsExePath = ConfigSource.Current.AppSettings.Settings["CasperjsScraper.CasperjsExePath"].Value
                     };
                 }
 
-                return _default;
+                return _fromConfig;
             }
-        }
-
-        private static void Initialize(string rootPath)
-        {
-            //TODO:
         }
     }
 }
