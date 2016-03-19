@@ -10,7 +10,8 @@ namespace DScraper.ConsoleTest
     {
         static void Main(string[] args)
         {
-            DScraperClient.Execute();
+            var script = AppDomain.CurrentDomain.BaseDirectory + @"\scripts\test.js";
+            DScraperClient.Execute(script);
         }
     }
 }

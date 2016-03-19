@@ -11,9 +11,13 @@ namespace DScraper
 {
     public class DScraperClient
     {
-        public static void Execute()
+        static DScraperClient()
         {
-            var root = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        }
+
+        public static void Execute(string script)
+        {
+            var root = AppDomain.CurrentDomain.BaseDirectory;
 
             var csp = root + @"\tools\casperjs\bin";
             var pht = root + @"\tools\phantomjs\";
@@ -22,7 +26,6 @@ namespace DScraper
             var csp1 = new FileInfo(root + @"\tools\casperjs\bin\casperjs.exe");
             var exe = new FileInfo(@"D:\Program Files\Python\Python35-32\python.exe");
 
-            var script = root + @"\scripts\test.js";
             var command = "casperjs " + script;
             var result = ExecutePythonScript(exe, csp1.Directory, command, env);
 
