@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DScraper
 {
@@ -31,14 +28,14 @@ namespace DScraper
                 throw new ArgumentNullException(nameof(_settings.PythonExePath));
             }
 
-            if (string.IsNullOrWhiteSpace(_settings.CasperjsExePath))
-            {
-                throw new ArgumentNullException(nameof(_settings.CasperjsExePath));
-            }
-
             if (string.IsNullOrWhiteSpace(_settings.PhantomjsExePath))
             {
                 throw new ArgumentNullException(nameof(_settings.PhantomjsExePath));
+            }
+
+            if (string.IsNullOrWhiteSpace(_settings.CasperjsExePath))
+            {
+                throw new ArgumentNullException(nameof(_settings.CasperjsExePath));
             }
         }
 
@@ -49,6 +46,13 @@ namespace DScraper
             var result = ExecutePythonScript(command);
 
             return result;
+        }
+
+        public T Get<T>(string scriptPath)
+        {
+            var result = Execute(scriptPath);
+
+            return JsonConvert.DeserializeObject<T>(result);
         }
 
         private string ExecutePythonScript(string casperjsCommand)
