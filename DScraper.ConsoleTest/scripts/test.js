@@ -24,19 +24,34 @@ casper.start('http://www.cnblogs.com/', function (response) {
     //}
 
     var args = getArguments();
-    this.echo(args);
+    //this.echo(args);
 
     //require('utils').dump(response);
 
-    var nameCount = this.evaluate(function () {
-        return $('img').jquery;
+    //var nameCount = this.evaluate(function () {
+    //    return $('img').jquery;
+    //});
+
+    //this.echo(nameCount);
+
+    //this.echo(JSON.stringify({
+    //    title: this.getTitle()
+    //}));
+
+    this.evaluate(function () {
+        $('#zzk_q').val('rulee');
+    });
+});
+
+casper.thenClick('.search_btn', function () {
+
+    this.echo(this.getCurrentUrl());
+
+    var value = this.evaluate(function () {
+        return $('A').first().text();
     });
 
-    this.echo(nameCount);
-
-    this.echo(JSON.stringify({
-        title: this.getTitle()
-    }));
+    this.echo(value);
 });
 
 casper.run();
