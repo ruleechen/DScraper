@@ -15,7 +15,7 @@ namespace DScraper
         {
             var root = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            var csp = root + @"\tools\casperjs\";
+            var csp = root + @"\tools\casperjs\bin";
             var pht = root + @"\tools\phantomjs\";
             var env = string.Format(";{0};{1}", pht, csp);
 
@@ -42,42 +42,62 @@ namespace DScraper
             }
         }
 
+        public static Encoding GetEncoding(string filename)
+        {
+            // Read the BOM
+            var bom = new byte[4];
+            using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            {
+                file.Read(bom, 0, 4);
+            }
+
+            // Analyze the BOM
+            if (bom[0] == 0x2b && bom[1] == 0x2f && bom[2] == 0x76) return Encoding.UTF7;
+            if (bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf) return Encoding.UTF8;
+            if (bom[0] == 0xff && bom[1] == 0xfe) return Encoding.Unicode; //UTF-16LE
+            if (bom[0] == 0xfe && bom[1] == 0xff) return Encoding.BigEndianUnicode; //UTF-16BE
+            if (bom[0] == 0 && bom[1] == 0 && bom[2] == 0xfe && bom[3] == 0xff) return Encoding.UTF32;
+            return Encoding.ASCII;
+        }
+
         private static string ExecutePythonScript(FileInfo pythonPath, DirectoryInfo workingDir, string casperArguments, string EnvPath)
         {
-            var p = new Process();
-            p.StartInfo.EnvironmentVariables["PATH"] = EnvPath;
-            p.StartInfo.WorkingDirectory = workingDir.FullName;
-            p.StartInfo.FileName = pythonPath.FullName;
-            p.StartInfo.Arguments = casperArguments;
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.RedirectStandardError = true;
-            p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.RedirectStandardOutput = true;
-
             var result = string.Empty;
 
-            p.ErrorDataReceived += (s, e) =>
+            using (var p = new Process())
             {
-                if (!string.IsNullOrEmpty(e.Data))
-                {
-                    result += e.Data;
-                }
-            };
+                p.StartInfo.EnvironmentVariables["PATH"] = EnvPath;
+                p.StartInfo.WorkingDirectory = workingDir.FullName;
+                p.StartInfo.FileName = pythonPath.FullName;
+                p.StartInfo.Arguments = casperArguments;
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.CreateNoWindow = true;
+                p.StartInfo.RedirectStandardError = true;
+                p.StartInfo.RedirectStandardInput = true;
+                p.StartInfo.RedirectStandardOutput = true;
 
-            p.OutputDataReceived += (s, e) =>
-            {
-                if (!string.IsNullOrEmpty(e.Data))
+                p.ErrorDataReceived += (s, e) =>
                 {
-                    result += e.Data;
-                }
-            };
+                    if (!string.IsNullOrEmpty(e.Data))
+                    {
+                        result += e.Data;
+                    }
+                };
 
-            p.Start();
-            p.BeginOutputReadLine();
-            p.BeginErrorReadLine();
-            p.WaitForExit();
-            p.Close();
+                p.OutputDataReceived += (s, e) =>
+                {
+                    if (!string.IsNullOrEmpty(e.Data))
+                    {
+                        result += e.Data;
+                    }
+                };
+
+                p.Start();
+                p.BeginOutputReadLine();
+                p.BeginErrorReadLine();
+                p.WaitForExit();
+                p.Close();
+            }
 
             return result;
         }
