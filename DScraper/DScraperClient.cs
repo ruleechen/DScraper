@@ -13,6 +13,7 @@ namespace DScraper
     {
         static DScraperClient()
         {
+
         }
 
         public static void Execute(string script)
