@@ -4,6 +4,12 @@ var casper = require('casper').create({
     verbose: true
 });
 
+function getArguments() {
+    var arg = casper.cli.args[0];
+    var json = decodeURIComponent(arg);
+    return JSON.parse(json);
+}
+
 casper.start('http://www.cnblogs.com/', function (response) {
 
     //this.echo('test:' + args.test)
@@ -17,9 +23,8 @@ casper.start('http://www.cnblogs.com/', function (response) {
     //    this.echo('k:' + k);
     //}
 
-    var json = decodeURIComponent(casper.cli.args[0]);
-    var args = JSON.parse(json);
-    this.echo(args.test);
+    var args = getArguments();
+    this.echo(args);
 
     //require('utils').dump(response);
 

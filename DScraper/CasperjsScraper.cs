@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
+using System.Web;
 
 namespace DScraper
 {
@@ -42,9 +42,11 @@ namespace DScraper
 
         public string Execute(string scriptPath, object args = null)
         {
-            var arguments = JsonConvert.SerializeObject(args ?? new { });
+            args = args ?? new { };
 
-            arguments = System.Web.HttpUtility.UrlEncode(arguments);
+            var arguments = JsonConvert.SerializeObject(args);
+
+            arguments = HttpUtility.UrlEncode(arguments);
 
             var command = string.Format("casperjs {0} {1}", scriptPath, arguments);
 
