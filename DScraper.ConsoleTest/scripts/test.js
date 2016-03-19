@@ -1,9 +1,12 @@
 
 var casper = require('casper').create({
-    clientScripts: ['includes/jquery.js']
+    clientScripts: ['includes/jquery.js'],
+    verbose: true
 });
 
-casper.start('http://www.cnblogs.com/', function () {
+casper.start('http://www.cnblogs.com/', function (response) {
+
+    require('utils').dump(response);
 
     var nameCount = this.evaluate(function () {
         return $('img').jquery;
@@ -11,7 +14,9 @@ casper.start('http://www.cnblogs.com/', function () {
 
     this.echo(nameCount);
 
-    this.echo(this.getTitle());
+    this.echo(JSON.stringify({
+        title: this.getTitle()
+    }));
 });
 
 casper.run();

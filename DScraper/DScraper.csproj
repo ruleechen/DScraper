@@ -47,29 +47,6 @@
     <Compile Include="DScraperClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="tools\casperjs\bin\casperjs" />
-    <None Include="tools\casperjs\package.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="tools\casperjs\bin\bootstrap.js" />
-    <Content Include="tools\casperjs\bin\casperjs.exe" />
-    <Content Include="tools\casperjs\bin\includes\jquery.js" />
-    <Content Include="tools\casperjs\bin\usage.txt" />
-    <Content Include="tools\casperjs\modules\casper.js" />
-    <Content Include="tools\casperjs\modules\cli.js" />
-    <Content Include="tools\casperjs\modules\clientutils.js" />
-    <Content Include="tools\casperjs\modules\colorizer.js" />
-    <Content Include="tools\casperjs\modules\events.js" />
-    <Content Include="tools\casperjs\modules\http.js" />
-    <Content Include="tools\casperjs\modules\mouse.js" />
-    <Content Include="tools\casperjs\modules\pagestack.js" />
-    <Content Include="tools\casperjs\modules\querystring.js" />
-    <Content Include="tools\casperjs\modules\tester.js" />
-    <Content Include="tools\casperjs\modules\utils.js" />
-    <Content Include="tools\casperjs\modules\xunit.js" />
-    <Content Include="tools\phantomjs\phantomjs.exe" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
