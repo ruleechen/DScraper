@@ -28,5 +28,22 @@ namespace DScraper
                 return _fromConfig;
             }
         }
+
+        private static CasperjsSettings _fromProject;
+        public static CasperjsSettings FromProject
+        {
+            get
+            {
+                if (_fromProject == null)
+                {
+                    _fromProject = new CasperjsSettings
+                    {
+                        //TODO:
+                    };
+                }
+
+                return _fromProject;
+            }
+        }
     }
 }
