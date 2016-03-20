@@ -66,8 +66,9 @@ namespace DScraper
             {
                 _source.Cancel();
                 _source.Dispose();
-                Process = null;
             }
+
+            Process = null;
         }
     }
 }
