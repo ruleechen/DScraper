@@ -38,7 +38,7 @@ namespace DScraper
             return context != null && context.Handler != null;
         }
 
-        public static ProcessWatcher Ward(this Process process, TimeSpan timespan)
+        public static ProcessWatcher Watch(this Process process, TimeSpan timespan)
         {
             return new ProcessWatcher(process, timespan);
         }
