@@ -37,6 +37,7 @@ namespace DScraper
             DebuggerPort = 9001;
             DebuggerRemote = "http://localhost";
             OutputEncoding = Encoding.GetEncoding("GB2312");
+            ExecuteTimeout = TimeSpan.MinValue;
         }
 
         public bool Debugger { get; set; }
@@ -46,6 +47,8 @@ namespace DScraper
         public string DebuggerRemote { get; set; }
 
         public Encoding OutputEncoding { get; set; }
+
+        public TimeSpan ExecuteTimeout { get; set; }
 
         public string Execute(string scriptPath, object arg = null)
         {
@@ -73,7 +76,9 @@ namespace DScraper
             var command = string.Format("casperjs {0} {1} {2}",
                 string.Join(" ", flags), scriptPath, string.Join(" ", arguments));
 
-            var result = ExecutePythonScript(command);
+            var timeout = ExecuteTimeout > TimeSpan.MinValue ? ExecuteTimeout : TimeSpan.FromMinutes(1);
+
+            var result = ExecutePythonScript(command, timeout);
 
             return result;
         }
@@ -85,11 +90,43 @@ namespace DScraper
             return JsonConvert.DeserializeObject<T>(result);
         }
 
-        private string ExecutePythonScript(string casperjsCommand)
+        private class WatchTaskModel
+        {
+            public Process Process { get; set; }
+            public TimeSpan Timeout { get; set; }
+            public CancellationToken Token { get; set; }
+        }
+
+        private string ExecutePythonScript(string casperjsCommand, TimeSpan timeout)
         {
             var result = string.Empty;
             using (var p = new Process())
             {
+                CancellationTokenSource source = null;
+                if (timeout > TimeSpan.MinValue)
+                {
+                    source = new CancellationTokenSource();
+                    var task = Task.Factory.StartNew((state) =>
+                    {
+                        var param = (WatchTaskModel)state;
+                        Thread.Sleep(param.Timeout);
+                        if (!param.Token.IsCancellationRequested)
+                        {
+                            param.Process.Close();
+                            param.Process.Dispose();
+                        }
+                    },
+                    new WatchTaskModel
+                    {
+                        Process = p,
+                        Timeout = timeout,
+                        Token = source.Token
+                    },
+                    source.Token,
+                    TaskCreationOptions.DenyChildAttach,
+                    TaskScheduler.Default);
+                }
+
                 p.StartInfo.WorkingDirectory = Path.GetDirectoryName(_settings.CasperjsExePath);
                 p.StartInfo.FileName = "python.exe";
                 p.StartInfo.Arguments = casperjsCommand;
@@ -120,6 +157,12 @@ namespace DScraper
                 p.BeginErrorReadLine();
                 p.WaitForExit();
                 p.Close();
+
+                if (source != null)
+                {
+                    source.Cancel();
+                    source.Dispose();
+                }
             }
 
             return result;
