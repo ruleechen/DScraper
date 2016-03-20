@@ -43,17 +43,17 @@ namespace DScraper
                 throw new ArgumentNullException(nameof(_settings.CasperjsExePath));
             }
 
-            Debug = false;
-            DebugPort = 9001;
-            DebugRemote = "http://localhost";
+            Debugger = false;
+            DebuggerPort = 9001;
+            DebuggerRemote = "http://localhost";
             OutputEncoding = Encoding.GetEncoding("GB2312");
         }
 
-        public bool Debug { get; set; }
+        public bool Debugger { get; set; }
 
-        public int DebugPort { get; set; }
+        public int DebuggerPort { get; set; }
 
-        public string DebugRemote { get; set; }
+        public string DebuggerRemote { get; set; }
 
         public Encoding OutputEncoding { get; set; }
 
@@ -68,14 +68,11 @@ namespace DScraper
                 arguments.Add(HttpUtility.UrlEncode(arg0));
             }
 
-            if (Debug)
+            if (Debugger && !HttpContext.Current.IsAvailable())
             {
-                flags.Add("--remote-debugger-port=" + DebugPort);
+                flags.Add("--remote-debugger-port=" + DebuggerPort);
 
-                if (!HttpContext.Current.IsAvailable())
-                {
-                    StartWebkitDebug(1000);
-                }
+                StartWebkitDebug(delay: 1000);
             }
 
             if (OutputEncoding != null)
@@ -154,7 +151,7 @@ namespace DScraper
 
                 try
                 {
-                    Process.Start("chrome.exe", DebugRemote + ":" + DebugPort);
+                    Process.Start("chrome.exe", DebuggerRemote + ":" + DebuggerPort);
                 }
                 catch (Exception ex)
                 {
