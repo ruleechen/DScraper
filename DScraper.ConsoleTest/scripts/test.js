@@ -4,6 +4,8 @@ var casper = require('casper').create({
     verbose: true
 });
 
+debugger;
+
 function getArguments() {
     var arg = casper.cli.args[0];
     var json = decodeURIComponent(arg);
@@ -14,7 +16,11 @@ function getArguments() {
     }
 }
 
-casper.start('http://www.cnblogs.com/', function (response) {
+casper.start('http://www.cnblogs.com/');
+
+casper.then(function (response) {
+
+    debugger;
 
     //this.echo('test:' + args.test)
 
