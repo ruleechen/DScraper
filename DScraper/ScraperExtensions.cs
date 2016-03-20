@@ -9,28 +9,28 @@ namespace DScraper
 {
     public static class ScraperExtensions
     {
-        private static Configuration _current;
-        public static Configuration Current
+        private static Configuration _configuration;
+        public static Configuration Configuration
         {
             get
             {
-                if (_current == null)
+                if (_configuration == null)
                 {
                     if (HttpContext.Current.IsAvailable())
                     {
-                        _current = WebConfigurationManager.OpenWebConfiguration("~");
+                        _configuration = WebConfigurationManager.OpenWebConfiguration("~");
                     }
                     else
                     {
-                        _current = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                        _configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
                     }
                 }
 
-                return _current;
+                return _configuration;
             }
             set
             {
-                _current = value;
+                _configuration = value;
             }
         }
 

@@ -29,7 +29,7 @@ namespace DScraper
 
         private static string GetCasperjsExePath()
         {
-            var element = ScraperExtensions.Current.AppSettings.Settings["DScraper.CasperjsExePath"];
+            var element = ScraperExtensions.Configuration.AppSettings.Settings["DScraper.CasperjsExePath"];
 
             if (element != null)
             {
