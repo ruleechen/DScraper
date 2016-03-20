@@ -7,7 +7,11 @@ var casper = require('casper').create({
 function getArguments() {
     var arg = casper.cli.args[0];
     var json = decodeURIComponent(arg);
-    return JSON.parse(json);
+    try {
+        return JSON.parse(json);
+    } catch (ex) {
+        return json;
+    }
 }
 
 casper.start('http://www.cnblogs.com/', function (response) {
@@ -38,11 +42,11 @@ casper.start('http://www.cnblogs.com/', function (response) {
     //    title: this.getTitle()
     //}));
 
-    this.evaluate(function () {
-        $('#zzk_q').val('rulee');
-    });
+    this.evaluate(function (v) {
+        $('#zzk_q').val(v);
+    }, args.test);
 
-    this.echo('rulee');
+    //this.echo('rulee');
 });
 
 casper.thenClick('.search_btn', function () {

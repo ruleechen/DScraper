@@ -10,11 +10,10 @@ namespace DScraper.ConsoleTest
     {
         static void Main(string[] args)
         {
-            var root = AppDomain.CurrentDomain.BaseDirectory;
             var scraper = new CasperjsScraper();
 
-            var script = root + @"\scripts\test.js";
-            var result = scraper.Execute(script, new { test = 1 });
+            var script = AppDomain.CurrentDomain.BaseDirectory + @"\scripts\test.js";
+            var result = scraper.Execute(script, new { test = "rulee" });
             Console.WriteLine(result);
         }
     }
