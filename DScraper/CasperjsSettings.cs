@@ -40,27 +40,34 @@ namespace DScraper
             }
         }
 
+        private const string VerificationCacheKey = "DSCRAPER_ENVIRONMENT_VERIFICATION";
+
         public static void VerifyEnvironment()
         {
-            var python = ScraperExtensions.GetExecutableFullPath("python.exe");
-
-            if (string.IsNullOrEmpty(python))
+            if ((string)AppDomain.CurrentDomain.GetData(VerificationCacheKey) != "1")
             {
-                throw new FileNotFoundException("Environment can not found python executable file");
-            }
+                var python = ScraperExtensions.GetExecutableFullPath("python.exe");
 
-            var phantomjs = ScraperExtensions.GetExecutableFullPath("phantomjs.exe");
+                if (string.IsNullOrEmpty(python))
+                {
+                    throw new FileNotFoundException("Environment can not found python executable file");
+                }
 
-            if (string.IsNullOrEmpty(phantomjs))
-            {
-                throw new FileNotFoundException("Environment can not found phantomjs executable file");
-            }
+                var phantomjs = ScraperExtensions.GetExecutableFullPath("phantomjs.exe");
 
-            var casperjs = ScraperExtensions.GetExecutableFullPath("casperjs.exe");
+                if (string.IsNullOrEmpty(phantomjs))
+                {
+                    throw new FileNotFoundException("Environment can not found phantomjs executable file");
+                }
 
-            if (string.IsNullOrEmpty(casperjs))
-            {
-                throw new FileNotFoundException("Environment can not found casperjs executable file");
+                var casperjs = ScraperExtensions.GetExecutableFullPath("casperjs.exe");
+
+                if (string.IsNullOrEmpty(casperjs))
+                {
+                    throw new FileNotFoundException("Environment can not found casperjs executable file");
+                }
+
+                AppDomain.CurrentDomain.SetData(VerificationCacheKey, "1");
             }
         }
     }
