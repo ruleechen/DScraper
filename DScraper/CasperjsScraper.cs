@@ -90,42 +90,12 @@ namespace DScraper
             return JsonConvert.DeserializeObject<T>(result);
         }
 
-        private class WatchTaskModel
-        {
-            public Process Process { get; set; }
-            public TimeSpan Timeout { get; set; }
-            public CancellationToken Token { get; set; }
-        }
-
         private string ExecutePythonScript(string casperjsCommand, TimeSpan timeout)
         {
             var result = string.Empty;
             using (var p = new Process())
             {
-                CancellationTokenSource source = null;
-                if (timeout > TimeSpan.MinValue)
-                {
-                    source = new CancellationTokenSource();
-                    var task = Task.Factory.StartNew((state) =>
-                    {
-                        var param = (WatchTaskModel)state;
-                        Thread.Sleep(param.Timeout);
-                        if (!param.Token.IsCancellationRequested)
-                        {
-                            param.Process.Close();
-                            param.Process.Dispose();
-                        }
-                    },
-                    new WatchTaskModel
-                    {
-                        Process = p,
-                        Timeout = timeout,
-                        Token = source.Token
-                    },
-                    source.Token,
-                    TaskCreationOptions.DenyChildAttach,
-                    TaskScheduler.Default);
-                }
+                var watcher = new ProcessWatcher(p, timeout);
 
                 p.StartInfo.WorkingDirectory = Path.GetDirectoryName(_settings.CasperjsExePath);
                 p.StartInfo.FileName = "python.exe";
@@ -158,11 +128,7 @@ namespace DScraper
                 p.WaitForExit();
                 p.Close();
 
-                if (source != null)
-                {
-                    source.Cancel();
-                    source.Dispose();
-                }
+                watcher.Dispose();
             }
 
             return result;
