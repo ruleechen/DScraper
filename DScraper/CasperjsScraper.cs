@@ -150,7 +150,7 @@ namespace DScraper
                 Thread.Sleep(1000);
                 try
                 {
-                    Process.Start("chrome1.exe", DebugRemote + ":" + DebugPort);
+                    Process.Start("chrome.exe", DebugRemote + ":" + DebugPort);
                 }
                 catch (Exception ex)
                 {
