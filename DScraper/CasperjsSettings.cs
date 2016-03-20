@@ -17,7 +17,7 @@ namespace DScraper
                 {
                     _fromConfig = new CasperjsSettings
                     {
-                        CasperjsExePath = DScraperExtensions.Current.AppSettings.Settings["DScraper.CasperjsExePath"].Value
+                        CasperjsExePath = ScraperExtensions.Current.AppSettings.Settings["DScraper.CasperjsExePath"].Value
                     };
                 }
 
