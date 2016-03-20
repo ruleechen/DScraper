@@ -4,18 +4,18 @@ using System.IO;
 
 namespace DScraper
 {
-    public class CasperjsSettings
+    public class CasperSettings
     {
         public string CasperjsExePath { get; set; }
 
-        private static CasperjsSettings _fromDetection;
-        public static CasperjsSettings FromDetection
+        private static CasperSettings _fromDetection;
+        public static CasperSettings FromDetection
         {
             get
             {
                 if (_fromDetection == null)
                 {
-                    _fromDetection = new CasperjsSettings
+                    _fromDetection = new CasperSettings
                     {
                         CasperjsExePath = GetCasperjsExePath()
                     };

@@ -10,21 +10,21 @@ using System.Web;
 
 namespace DScraper
 {
-    public class CasperjsScraper
+    public class CasperScraper
     {
-        static CasperjsScraper()
+        static CasperScraper()
         {
-            CasperjsSettings.VerifyEnvironment();
+            CasperSettings.VerifyEnvironment();
         }
 
-        private CasperjsSettings _settings;
+        private CasperSettings _settings;
 
-        public CasperjsScraper()
-            : this(CasperjsSettings.FromDetection)
+        public CasperScraper()
+            : this(CasperSettings.FromDetection)
         {
         }
 
-        public CasperjsScraper(CasperjsSettings settings)
+        public CasperScraper(CasperSettings settings)
         {
             _settings = settings;
 

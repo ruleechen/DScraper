@@ -11,9 +11,9 @@ namespace DScraper.ConsoleTest
     {
         static void Main(string[] args)
         {
-            var scraper = new CasperjsScraper();
+            var scraper = new CasperScraper();
 
-            var script = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"\scripts\test.js");
+            var script = AppDomain.CurrentDomain.BaseDirectory + @"\scripts\test.js";
 
             var result = scraper.Execute(script, new { test = "rulee" });
 

@@ -47,8 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CasperjsScraper.cs" />
-    <Compile Include="CasperjsSettings.cs" />
+    <Compile Include="CasperScraper.cs" />
+    <Compile Include="CasperSettings.cs" />
     <Compile Include="ScraperExtensions.cs" />
     <Compile Include="ProcessWatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
