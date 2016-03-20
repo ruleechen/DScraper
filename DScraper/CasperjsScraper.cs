@@ -33,11 +33,6 @@ namespace DScraper
                 throw new ArgumentNullException(nameof(_settings.PythonExePath));
             }
 
-            if (string.IsNullOrWhiteSpace(_settings.PhantomjsExePath))
-            {
-                throw new ArgumentNullException(nameof(_settings.PhantomjsExePath));
-            }
-
             if (string.IsNullOrWhiteSpace(_settings.CasperjsExePath))
             {
                 throw new ArgumentNullException(nameof(_settings.CasperjsExePath));
@@ -97,15 +92,10 @@ namespace DScraper
 
         private string ExecutePythonScript(string casperjsCommand)
         {
-            var casperjsDirectory = Path.GetDirectoryName(_settings.CasperjsExePath);
-            var phantomjsDirectory = Path.GetDirectoryName(_settings.PhantomjsExePath);
-            var PATH = string.Format(";{0};{1}", casperjsDirectory, phantomjsDirectory);
-
             var result = string.Empty;
             using (var p = new Process())
             {
-                p.StartInfo.EnvironmentVariables["PATH"] = PATH;
-                p.StartInfo.WorkingDirectory = casperjsDirectory;
+                p.StartInfo.WorkingDirectory = Path.GetDirectoryName(_settings.CasperjsExePath);
                 p.StartInfo.FileName = _settings.PythonExePath;
                 p.StartInfo.Arguments = casperjsCommand;
                 p.StartInfo.UseShellExecute = false;

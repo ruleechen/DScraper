@@ -7,7 +7,6 @@ namespace DScraper
     public class CasperjsSettings
     {
         public string PythonExePath { get; set; }
-        public string PhantomjsExePath { get; set; }
         public string CasperjsExePath { get; set; }
 
         private static CasperjsSettings _fromConfig;
@@ -20,7 +19,6 @@ namespace DScraper
                     _fromConfig = new CasperjsSettings
                     {
                         PythonExePath = DScraperExtensions.Current.AppSettings.Settings["DScraper.PythonExePath"].Value,
-                        PhantomjsExePath = DScraperExtensions.Current.AppSettings.Settings["DScraper.PhantomjsExePath"].Value,
                         CasperjsExePath = DScraperExtensions.Current.AppSettings.Settings["DScraper.CasperjsExePath"].Value
                     };
                 }
