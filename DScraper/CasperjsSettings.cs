@@ -2,6 +2,7 @@
 using System.IO;
 using System.Configuration;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace DScraper
 {
@@ -49,25 +50,21 @@ namespace DScraper
                 return;
             }
 
-            var python = ScraperExtensions.GetExecutableFullPath("python.exe");
-
-            if (string.IsNullOrEmpty(python))
+            var executables = new List<string>
             {
-                throw new FileNotFoundException("Environment can not found python executable file");
-            }
+                "python.exe",
+                "phantomjs.exe",
+                "casperjs.exe"
+            };
 
-            var phantomjs = ScraperExtensions.GetExecutableFullPath("phantomjs.exe");
-
-            if (string.IsNullOrEmpty(phantomjs))
+            foreach (var file in executables)
             {
-                throw new FileNotFoundException("Environment can not found phantomjs executable file");
-            }
+                var path = ScraperExtensions.GetExecutableFullPath("python.exe");
 
-            var casperjs = ScraperExtensions.GetExecutableFullPath("casperjs.exe");
-
-            if (string.IsNullOrEmpty(casperjs))
-            {
-                throw new FileNotFoundException("Environment can not found casperjs executable file");
+                if (string.IsNullOrEmpty(path))
+                {
+                    throw new FileNotFoundException("Environment can not found executable file: " + file);
+                }
             }
 
             AppDomain.CurrentDomain.SetData(VerificationCacheKey, "1");
