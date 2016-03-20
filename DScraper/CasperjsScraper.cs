@@ -79,7 +79,7 @@ namespace DScraper
             var result = ExecuteCasperScript(
                 command: command,
                 workingAt: Path.GetDirectoryName(_settings.CasperjsExePath),
-                timeout: ExecuteTimeout);
+                timeout: Debugger ? TimeSpan.MinValue : ExecuteTimeout);
 
             return result;
         }
