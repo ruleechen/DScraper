@@ -4,7 +4,7 @@ using System.Web.Configuration;
 
 namespace DScraper
 {
-    public class ConfigSource
+    public static class ConfigSource
     {
         private static Configuration _current;
         public static Configuration Current
@@ -13,7 +13,7 @@ namespace DScraper
             {
                 if (_current == null)
                 {
-                    if (HttpContext.Current != null)
+                    if (HttpContext.Current.IsAvailable())
                     {
                         _current = WebConfigurationManager.OpenWebConfiguration("~");
                     }
@@ -29,6 +29,11 @@ namespace DScraper
             {
                 _current = value;
             }
+        }
+
+        public static bool IsAvailable(this HttpContext context)
+        {
+            return context != null && context.Handler != null;
         }
     }
 }

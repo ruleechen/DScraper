@@ -45,12 +45,15 @@ namespace DScraper
 
             Debug = false;
             DebugPort = 9001;
+            DebugRemote = "http://localhost";
             OutputEncoding = Encoding.GetEncoding("GB2312");
         }
 
         public bool Debug { get; set; }
 
         public int DebugPort { get; set; }
+
+        public string DebugRemote { get; set; }
 
         public Encoding OutputEncoding { get; set; }
 
@@ -69,11 +72,10 @@ namespace DScraper
             {
                 flags.Add("--remote-debugger-port=" + DebugPort);
 
-                Task.Run(() =>
+                if (!HttpContext.Current.IsAvailable())
                 {
-                    Thread.Sleep(1000);
-                    Process.Start("http://localhost:" + DebugPort);
-                });
+                    StartWebkitDebug();
+                }
             }
 
             if (OutputEncoding != null)
@@ -139,6 +141,22 @@ namespace DScraper
             }
 
             return result;
+        }
+
+        private void StartWebkitDebug()
+        {
+            Task.Run(() =>
+            {
+                Thread.Sleep(1000);
+                try
+                {
+                    Process.Start("chrome.exe", DebugRemote + ":" + DebugPort);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Can not open Google Chrome");
+                }
+            });
         }
     }
 }
