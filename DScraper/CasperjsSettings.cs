@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Configuration;
+using System.Linq;
 
 namespace DScraper
 {
@@ -8,37 +9,34 @@ namespace DScraper
     {
         public string CasperjsExePath { get; set; }
 
-        private static CasperjsSettings _fromConfig;
-        public static CasperjsSettings FromConfig
+        private static CasperjsSettings _fromDetection;
+        public static CasperjsSettings FromDetection
         {
             get
             {
-                if (_fromConfig == null)
+                if (_fromDetection == null)
                 {
-                    _fromConfig = new CasperjsSettings
+                    _fromDetection = new CasperjsSettings
                     {
-                        CasperjsExePath = ScraperExtensions.Current.AppSettings.Settings["DScraper.CasperjsExePath"].Value
+                        CasperjsExePath = GetCasperjsExePath()
                     };
                 }
 
-                return _fromConfig;
+                return _fromDetection;
             }
         }
 
-        private static CasperjsSettings _fromProject;
-        public static CasperjsSettings FromProject
+        private static string GetCasperjsExePath()
         {
-            get
-            {
-                if (_fromProject == null)
-                {
-                    _fromProject = new CasperjsSettings
-                    {
-                        //TODO:
-                    };
-                }
+            var element = ScraperExtensions.Current.AppSettings.Settings["DScraper.CasperjsExePath"];
 
-                return _fromProject;
+            if (element != null)
+            {
+                return element.Value;
+            }
+            else
+            {
+                return ScraperExtensions.GetExecutableFullPath("casperjs.exe");
             }
         }
     }
