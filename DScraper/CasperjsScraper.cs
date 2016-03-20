@@ -97,7 +97,7 @@ namespace DScraper
 
             using (var p = new Process())
             {
-                var watcher = new ProcessWatcher(p, timeout);
+                var watcher = p.Ward(timeout);
 
                 p.StartInfo.FileName = "python.exe";
                 p.StartInfo.WorkingDirectory = workingAt;
