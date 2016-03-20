@@ -150,11 +150,11 @@ namespace DScraper
                 Thread.Sleep(1000);
                 try
                 {
-                    Process.Start("chrome.exe", DebugRemote + ":" + DebugPort);
+                    Process.Start("chrome1.exe", DebugRemote + ":" + DebugPort);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Can not open Google Chrome");
+                    Console.WriteLine("Can not open Google Chrome: " + ex.Message);
                 }
             });
         }
