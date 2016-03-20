@@ -38,25 +38,28 @@ namespace DScraper
             if (Timeout > TimeSpan.MinValue)
             {
                 _source = new CancellationTokenSource();
-                var task = Task.Factory.StartNew((state) =>
-                {
-                    var param = (WatchTaskModel)state;
-                    Thread.Sleep(param.Timeout);
-                    if (!param.Token.IsCancellationRequested)
+
+                Task.Factory.StartNew(
+                    action: (state) =>
                     {
-                        param.Process.Close();
-                        param.Process.Dispose();
-                    }
-                },
-                new WatchTaskModel
-                {
-                    Process = Process,
-                    Timeout = Timeout,
-                    Token = _source.Token
-                },
-                _source.Token,
-                TaskCreationOptions.DenyChildAttach,
-                TaskScheduler.Default);
+                        var param = (WatchTaskModel)state;
+                        Thread.Sleep(param.Timeout);
+                        if (!param.Token.IsCancellationRequested)
+                        {
+                            param.Process.Close();
+                            param.Process.Dispose();
+                        }
+                    },
+                    state: new WatchTaskModel
+                    {
+                        Process = Process,
+                        Timeout = Timeout,
+                        Token = _source.Token
+                    },
+                    cancellationToken: _source.Token,
+                    creationOptions: TaskCreationOptions.AttachedToParent | TaskCreationOptions.DenyChildAttach,
+                    scheduler: TaskScheduler.Default
+                );
             }
         }
 
