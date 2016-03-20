@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace DScraper
@@ -66,6 +68,12 @@ namespace DScraper
             if (Debug)
             {
                 flags.Add("--remote-debugger-port=" + DebugPort);
+
+                Task.Run(() =>
+                {
+                    Thread.Sleep(1000);
+                    Process.Start("http://localhost:" + DebugPort);
+                });
             }
 
             if (OutputEncoding != null)
