@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Configuration;
-using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 
 namespace DScraper
 {
