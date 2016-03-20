@@ -4,7 +4,7 @@ using System.Web.Configuration;
 
 namespace DScraper
 {
-    public static class ConfigSource
+    public static class DScraperExtensions
     {
         private static Configuration _current;
         public static Configuration Current

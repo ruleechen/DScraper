@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="CasperjsScraper.cs" />
     <Compile Include="CasperjsSettings.cs" />
-    <Compile Include="ConfigSource.cs" />
+    <Compile Include="DScraperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
