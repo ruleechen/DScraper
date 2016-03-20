@@ -74,7 +74,7 @@ namespace DScraper
 
                 if (!HttpContext.Current.IsAvailable())
                 {
-                    StartWebkitDebug();
+                    StartWebkitDebug(1000);
                 }
             }
 
@@ -143,11 +143,15 @@ namespace DScraper
             return result;
         }
 
-        private void StartWebkitDebug()
+        private void StartWebkitDebug(int delay)
         {
             Task.Run(() =>
             {
-                Thread.Sleep(1000);
+                if (delay > 0)
+                {
+                    Thread.Sleep(delay);
+                }
+
                 try
                 {
                     Process.Start("chrome.exe", DebugRemote + ":" + DebugPort);
