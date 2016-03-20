@@ -39,5 +39,29 @@ namespace DScraper
                 return ScraperExtensions.GetExecutableFullPath("casperjs.exe");
             }
         }
+
+        public static void VerifyEnvironment()
+        {
+            var python = ScraperExtensions.GetExecutableFullPath("python.exe");
+
+            if (string.IsNullOrEmpty(python))
+            {
+                throw new FileNotFoundException("Environment can not found python executable file");
+            }
+
+            var phantomjs = ScraperExtensions.GetExecutableFullPath("phantomjs.exe");
+
+            if (string.IsNullOrEmpty(phantomjs))
+            {
+                throw new FileNotFoundException("Environment can not found phantomjs executable file");
+            }
+
+            var casperjs = ScraperExtensions.GetExecutableFullPath("casperjs.exe");
+
+            if (string.IsNullOrEmpty(casperjs))
+            {
+                throw new FileNotFoundException("Environment can not found casperjs executable file");
+            }
+        }
     }
 }

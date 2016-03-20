@@ -12,6 +12,11 @@ namespace DScraper
 {
     public class CasperjsScraper
     {
+        static CasperjsScraper()
+        {
+            CasperjsSettings.VerifyEnvironment();
+        }
+
         private CasperjsSettings _settings;
 
         public CasperjsScraper()
