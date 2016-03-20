@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Web;
 
 namespace DScraper
@@ -38,17 +40,41 @@ namespace DScraper
             {
                 throw new ArgumentNullException(nameof(_settings.CasperjsExePath));
             }
+
+            Debug = false;
+            DebugPort = 9001;
+            OutputEncoding = Encoding.GetEncoding("GB2312");
         }
 
-        public string Execute(string scriptPath, object args = null)
+        public bool Debug { get; set; }
+
+        public int DebugPort { get; set; }
+
+        public Encoding OutputEncoding { get; set; }
+
+        public string Execute(string scriptPath, object arg = null)
         {
-            args = args ?? new { };
+            var flags = new List<string>();
+            var arguments = new List<string>();
+            var arg0 = JsonConvert.SerializeObject(arg ?? new { });
 
-            var arguments = JsonConvert.SerializeObject(args);
+            if (!string.IsNullOrEmpty(arg0))
+            {
+                arguments.Add(HttpUtility.UrlEncode(arg0));
+            }
 
-            arguments = HttpUtility.UrlEncode(arguments);
+            if (Debug)
+            {
+                flags.Add("--remote-debugger-port=" + DebugPort);
+            }
 
-            var command = string.Format("casperjs --output-encoding=GB2312 --remote-debugger-port=9001 {0} {1}", scriptPath, arguments);
+            if (OutputEncoding != null)
+            {
+                flags.Add("--output-encoding=" + OutputEncoding.HeaderName);
+            }
+
+            var command = string.Format("casperjs {0} {1} {2}",
+                string.Join(" ", flags), scriptPath, string.Join(" ", arguments));
 
             var result = ExecutePythonScript(command);
 
