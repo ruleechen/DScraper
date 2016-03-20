@@ -54,6 +54,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="includes\jquery.js" />
     <Content Include="scripts\test.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
