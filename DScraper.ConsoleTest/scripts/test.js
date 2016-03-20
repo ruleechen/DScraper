@@ -2,7 +2,12 @@ var fs = require('fs');
 
 var casper = require('casper').create({
     clientScripts: ['includes/jquery.js'],
-    verbose: true
+    verbose: true,
+    pageSettings: {
+        loadImages: false,
+        loadPlugins: true,
+        userAgent: 'Mozilla/5.0 (Windows; U; Windows NT 5.1; nl; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'
+    }
 });
 
 debugger;
