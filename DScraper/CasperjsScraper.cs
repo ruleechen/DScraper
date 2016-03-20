@@ -28,11 +28,6 @@ namespace DScraper
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            if (string.IsNullOrWhiteSpace(_settings.PythonExePath))
-            {
-                throw new ArgumentNullException(nameof(_settings.PythonExePath));
-            }
-
             if (string.IsNullOrWhiteSpace(_settings.CasperjsExePath))
             {
                 throw new ArgumentNullException(nameof(_settings.CasperjsExePath));
@@ -96,7 +91,7 @@ namespace DScraper
             using (var p = new Process())
             {
                 p.StartInfo.WorkingDirectory = Path.GetDirectoryName(_settings.CasperjsExePath);
-                p.StartInfo.FileName = _settings.PythonExePath;
+                p.StartInfo.FileName = "python.exe";
                 p.StartInfo.Arguments = casperjsCommand;
                 p.StartInfo.UseShellExecute = false;
                 p.StartInfo.CreateNoWindow = true;
