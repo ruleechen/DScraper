@@ -50,6 +50,7 @@
     <Compile Include="CasperjsScraper.cs" />
     <Compile Include="CasperjsSettings.cs" />
     <Compile Include="DScraperExtensions.cs" />
+    <Compile Include="ProcessWatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

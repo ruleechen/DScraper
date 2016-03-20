@@ -28,16 +28,6 @@ namespace DScraper
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            if (string.IsNullOrWhiteSpace(_settings.PythonExePath))
-            {
-                throw new ArgumentNullException(nameof(_settings.PythonExePath));
-            }
-
-            if (string.IsNullOrWhiteSpace(_settings.PhantomjsExePath))
-            {
-                throw new ArgumentNullException(nameof(_settings.PhantomjsExePath));
-            }
-
             if (string.IsNullOrWhiteSpace(_settings.CasperjsExePath))
             {
                 throw new ArgumentNullException(nameof(_settings.CasperjsExePath));
@@ -47,6 +37,7 @@ namespace DScraper
             DebuggerPort = 9001;
             DebuggerRemote = "http://localhost";
             OutputEncoding = Encoding.GetEncoding("GB2312");
+            ExecuteTimeout = TimeSpan.FromMinutes(1);
         }
 
         public bool Debugger { get; set; }
@@ -56,6 +47,8 @@ namespace DScraper
         public string DebuggerRemote { get; set; }
 
         public Encoding OutputEncoding { get; set; }
+
+        public TimeSpan ExecuteTimeout { get; set; }
 
         public string Execute(string scriptPath, object arg = null)
         {
@@ -83,7 +76,10 @@ namespace DScraper
             var command = string.Format("casperjs {0} {1} {2}",
                 string.Join(" ", flags), scriptPath, string.Join(" ", arguments));
 
-            var result = ExecutePythonScript(command);
+            var result = ExecuteCasperScript(
+                command: command,
+                workingAt: Path.GetDirectoryName(_settings.CasperjsExePath),
+                timeout: Debugger ? TimeSpan.MinValue : ExecuteTimeout);
 
             return result;
         }
@@ -95,19 +91,17 @@ namespace DScraper
             return JsonConvert.DeserializeObject<T>(result);
         }
 
-        private string ExecutePythonScript(string casperjsCommand)
+        private static string ExecuteCasperScript(string command, string workingAt, TimeSpan timeout)
         {
-            var casperjsDirectory = Path.GetDirectoryName(_settings.CasperjsExePath);
-            var phantomjsDirectory = Path.GetDirectoryName(_settings.PhantomjsExePath);
-            var PATH = string.Format(";{0};{1}", casperjsDirectory, phantomjsDirectory);
-
             var result = string.Empty;
+
             using (var p = new Process())
             {
-                p.StartInfo.EnvironmentVariables["PATH"] = PATH;
-                p.StartInfo.WorkingDirectory = casperjsDirectory;
-                p.StartInfo.FileName = _settings.PythonExePath;
-                p.StartInfo.Arguments = casperjsCommand;
+                var watcher = new ProcessWatcher(p, timeout);
+
+                p.StartInfo.FileName = "python.exe";
+                p.StartInfo.WorkingDirectory = workingAt;
+                p.StartInfo.Arguments = command;
                 p.StartInfo.UseShellExecute = false;
                 p.StartInfo.CreateNoWindow = true;
                 p.StartInfo.RedirectStandardError = true;
@@ -135,6 +129,8 @@ namespace DScraper
                 p.BeginErrorReadLine();
                 p.WaitForExit();
                 p.Close();
+
+                watcher.Dispose();
             }
 
             return result;
