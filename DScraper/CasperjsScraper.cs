@@ -72,7 +72,7 @@ namespace DScraper
             {
                 flags.Add("--remote-debugger-port=" + DebuggerPort);
 
-                StartWebkitDebug(delay: 1000);
+                StartWebkitDebugger(delay: 1000);
             }
 
             if (OutputEncoding != null)
@@ -140,7 +140,7 @@ namespace DScraper
             return result;
         }
 
-        private void StartWebkitDebug(int delay)
+        private void StartWebkitDebugger(int delay)
         {
             Task.Run(() =>
             {
