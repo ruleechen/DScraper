@@ -11,7 +11,7 @@ namespace DScraper
         {
             if (process == null)
             {
-                throw new ArgumentNullException(nameof(process));
+                throw new ArgumentNullException("process");
             }
 
             Process = process;

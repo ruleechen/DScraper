@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 var casper = require('casper').create({
-    clientScripts: ['includes/jquery.js'],
+    clientScripts: ['E:\\yun\\dscraper\\DScraper.ConsoleTest\\includes\\jquery.js'],
     verbose: true,
     pageSettings: {
         loadImages: false,

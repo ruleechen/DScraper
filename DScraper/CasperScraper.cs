@@ -30,12 +30,12 @@ namespace DScraper
 
             if (_settings == null)
             {
-                throw new ArgumentNullException(nameof(settings));
+                throw new ArgumentNullException("settings");
             }
 
             if (string.IsNullOrWhiteSpace(_settings.CasperjsExePath))
             {
-                throw new ArgumentNullException(nameof(_settings.CasperjsExePath));
+                throw new ArgumentNullException("settings.CasperjsExePath");
             }
 
             Debugger = false;
