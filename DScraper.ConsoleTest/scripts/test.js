@@ -1,3 +1,7 @@
+
+
+phantom.casperTest = true;
+
 var fs = require('fs');
 
 var casper = require('casper').create({
