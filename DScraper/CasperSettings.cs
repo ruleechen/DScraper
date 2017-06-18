@@ -58,7 +58,7 @@ namespace DScraper
 
             foreach (var file in executables)
             {
-                var path = ScraperExtensions.GetExecutableFullPath("python.exe");
+                var path = ScraperExtensions.GetExecutableFullPath(file);
 
                 if (string.IsNullOrEmpty(path))
                 {
