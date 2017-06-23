@@ -16,3 +16,19 @@ var args = new { };
 var result = scraper.Execute(script, args);
 Console.WriteLine(result); // the echo values from your casper script
 ```
+
+CasperScraper for Development
+------------
+```c#
+var scraper = new CasperScraper
+{
+    // enable debugger
+    // ensure you have chrome installed,
+    // then you can debug casper script in chrome developer tool
+    Debugger = true
+};
+var script = "D:\\test.js";
+var args = new { };
+var result = scraper.Execute(script, args);
+Console.WriteLine(result); // the echo values from your casper script
+```
