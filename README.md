@@ -11,10 +11,11 @@ Sample CasperScraper
 ------------
 ```c#
 var scraper = new CasperScraper();
-var script = "D:\\test.js";
+var scriptFile = "D:\\test.js";
 var args = new { };
-var result = scraper.Execute(script, args);
-Console.WriteLine(result); // the echo values from your casper script
+var result = scraper.Execute(scriptFile, args);
+// the echo values from your casper script
+Console.WriteLine(result);
 ```
 
 CasperScraper for Development
@@ -27,8 +28,9 @@ var scraper = new CasperScraper
     // then you can debug casper script in chrome developer tool
     Debugger = true
 };
-var script = "D:\\test.js";
+var scriptFile = "D:\\test.js";
 var args = new { };
-var result = scraper.Execute(script, args);
-Console.WriteLine(result); // the echo values from your casper script
+var result = scraper.Execute(scriptFile, args);
+// the echo values from your casper script
+Console.WriteLine(result);
 ```
