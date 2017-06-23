@@ -107,8 +107,9 @@ namespace DScraper
                 p.StartInfo.FileName = "python.exe";
                 p.StartInfo.WorkingDirectory = workingAt;
                 p.StartInfo.Arguments = command;
+                p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                p.StartInfo.CreateNoWindow = false;
                 p.StartInfo.UseShellExecute = false;
-                p.StartInfo.CreateNoWindow = true;
                 p.StartInfo.RedirectStandardError = true;
                 p.StartInfo.RedirectStandardInput = true;
                 p.StartInfo.RedirectStandardOutput = true;
