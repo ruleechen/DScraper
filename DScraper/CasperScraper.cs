@@ -89,13 +89,6 @@ namespace DScraper
             return result;
         }
 
-        public T Get<T>(string scriptPath, object args = null)
-        {
-            var result = Execute(scriptPath, args);
-
-            return JsonConvert.DeserializeObject<T>(result);
-        }
-
         private static string ExecuteCasperScript(string command, string workingAt, TimeSpan timeout)
         {
             var result = string.Empty;
@@ -138,16 +131,7 @@ namespace DScraper
                 p.Start();
                 p.BeginOutputReadLine();
                 p.BeginErrorReadLine();
-
-                if (timeout > TimeSpan.MinValue)
-                {
-                    p.WaitForExit(timeout.Milliseconds);
-                }
-                else
-                {
-                    p.WaitForExit();
-                }
-
+                p.WaitForExit();
                 p.Close();
 
                 if (watcher != null)
