@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DScraper.ConsoleTest")]
+[assembly: AssemblyTitle("DScraper.WindowsService")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DScraper.ConsoleTest")]
+[assembly: AssemblyProduct("DScraper.WindowsService")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("628cb201-7e74-4cad-bfb2-e236a73b58f6")]
+[assembly: Guid("09b78f9d-0b4c-4667-abfd-2e302dab1011")]
 
 // Version information for an assembly consists of the following four values:
 //
