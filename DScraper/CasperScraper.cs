@@ -102,7 +102,12 @@ namespace DScraper
 
             using (var p = new Process())
             {
-                var watcher = p.Watch(timeout);
+                ProcessWatcher watcher = null;
+
+                if (timeout > TimeSpan.MinValue)
+                {
+                    watcher = p.Watch(timeout);
+                }
 
                 p.StartInfo.FileName = "python.exe";
                 p.StartInfo.WorkingDirectory = workingAt;
@@ -133,10 +138,22 @@ namespace DScraper
                 p.Start();
                 p.BeginOutputReadLine();
                 p.BeginErrorReadLine();
-                p.WaitForExit();
+
+                if (timeout > TimeSpan.MinValue)
+                {
+                    p.WaitForExit(timeout.Milliseconds);
+                }
+                else
+                {
+                    p.WaitForExit();
+                }
+
                 p.Close();
 
-                watcher.Dispose();
+                if (watcher != null)
+                {
+                    watcher.Dispose();
+                }
             }
 
             return result;

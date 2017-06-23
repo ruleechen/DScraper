@@ -14,6 +14,11 @@ namespace DScraper
                 throw new ArgumentNullException("process");
             }
 
+            if (Timeout == TimeSpan.MinValue)
+            {
+                throw new ArgumentException("timeout");
+            }
+
             Process = process;
             Timeout = timeout;
         }
@@ -32,32 +37,29 @@ namespace DScraper
         private CancellationTokenSource _source;
         private void StartWatch()
         {
-            if (Timeout > TimeSpan.MinValue)
-            {
-                _source = new CancellationTokenSource();
+            _source = new CancellationTokenSource();
 
-                Task.Factory.StartNew(
-                    action: (state) =>
+            Task.Factory.StartNew(
+                action: (state) =>
+                {
+                    var param = (WatchTaskModel)state;
+                    Thread.Sleep(param.Timeout);
+                    if (!param.Token.IsCancellationRequested)
                     {
-                        var param = (WatchTaskModel)state;
-                        Thread.Sleep(param.Timeout);
-                        if (!param.Token.IsCancellationRequested)
-                        {
-                            param.Process.Close();
-                            param.Process.Dispose();
-                        }
-                    },
-                    state: new WatchTaskModel
-                    {
-                        Process = Process,
-                        Timeout = Timeout,
-                        Token = _source.Token
-                    },
-                    cancellationToken: _source.Token,
-                    creationOptions: TaskCreationOptions.AttachedToParent | TaskCreationOptions.DenyChildAttach,
-                    scheduler: TaskScheduler.Default
-                );
-            }
+                        param.Process.Close();
+                        param.Process.Dispose();
+                    }
+                },
+                state: new WatchTaskModel
+                {
+                    Process = Process,
+                    Timeout = Timeout,
+                    Token = _source.Token
+                },
+                cancellationToken: _source.Token,
+                creationOptions: TaskCreationOptions.AttachedToParent | TaskCreationOptions.DenyChildAttach,
+                scheduler: TaskScheduler.Default
+            );
         }
 
         public void Dispose()
