@@ -42,7 +42,7 @@ namespace DScraper
             DebuggerPort = 9001;
             DebuggerRemote = "http://localhost";
             OutputEncoding = Encoding.GetEncoding("GB2312");
-            ExecuteTimeout = TimeSpan.FromMinutes(10);
+            ExecuteTimeout = TimeSpan.MinValue;
         }
 
         public bool Debugger { get; set; }

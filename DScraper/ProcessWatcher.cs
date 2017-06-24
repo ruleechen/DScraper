@@ -51,7 +51,11 @@ namespace DScraper
                             Process.Kill();
                         }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        var source = typeof(ProcessWatcher).Name;
+                        LogFactory.GetLogger().Error(source, ex);
+                    }
                     finally
                     {
                         if (OnTimeout != null)

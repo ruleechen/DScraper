@@ -35,8 +35,7 @@ namespace DScraper
             }
             else
             {
-                return ScraperExtensions.GetExecutableFullPath("casperjs.exe") ??
-                       ScraperExtensions.GetExecutableFullPath("bin\\casperjs.exe");
+                return ScraperExtensions.GetExecutableFullPath("casperjs.exe");
             }
         }
 
