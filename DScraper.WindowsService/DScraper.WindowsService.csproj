@@ -131,6 +131,10 @@
       <Project>{811521ca-ad1b-4c68-9b5b-4f1f0181ac39}</Project>
       <Name>DScraper.Executable</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DScraper\DScraper.csproj">
+      <Project>{d7dfa1dc-31b2-4d85-a4a4-75fd1e513f25}</Project>
+      <Name>DScraper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

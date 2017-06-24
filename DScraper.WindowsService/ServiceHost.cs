@@ -16,7 +16,16 @@ namespace DScraper.WindowsService
 
         protected override void OnStart(string[] args)
         {
-            ApiHost = WebApp.Start<Startup>(url: Constants.ApiBaseAddress);
+            var apiBaseAddress = Constants.ApiBaseAddress;
+
+            var config = ScraperExtensions.Configuration.AppSettings.Settings["DScraper.ApiBaseAddress"];
+
+            if (config != null)
+            {
+                apiBaseAddress = config.Value;
+            }
+
+            ApiHost = WebApp.Start<Startup>(url: apiBaseAddress);
         }
 
         protected override void OnStop()
