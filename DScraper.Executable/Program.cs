@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,7 +23,7 @@ namespace DScraper.Executable
             {
                 var source = typeof(Program).Assembly.ManifestModule.Name;
 
-                LogFactory.GetLogger().Debug(source, string.Join(Environment.NewLine, decodedArgs));
+                LogFactory.GetLogger().Debug(source, string.Join("|", decodedArgs));
             }
 
             try

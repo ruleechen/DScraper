@@ -42,7 +42,7 @@ namespace DScraper.WindowsService.Controllers
             var scriptFile = Path.Combine(root, tempFolder, tempName + ".js");
             var resultFile = Path.Combine(root, tempFolder, tempName + ".txt");
             var outputEncodingObj = Encoding.GetEncoding(outputEncoding);
-            var proxyLog = false;
+            var proxyLog = true;
 
             try
             {
@@ -66,7 +66,7 @@ namespace DScraper.WindowsService.Controllers
                 using (var p = new Process())
                 {
                     p.StartInfo.FileName = executableFile;
-                    p.StartInfo.Arguments = string.Join(" ", arguments.Select(x => $"\"{HttpUtility.UrlEncode(x)}\""));
+                    p.StartInfo.Arguments = string.Join(" ", arguments.Select(x => "\"" + HttpUtility.UrlEncode(x) + "\""));
                     p.StartInfo.CreateNoWindow = true;
                     p.StartInfo.UseShellExecute = false;
                     p.StartInfo.RedirectStandardError = true;
