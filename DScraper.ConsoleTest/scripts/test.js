@@ -62,7 +62,7 @@ casper.then(function (response) {
 
     this.evaluate(function (v) {
         $('#zzk_q').val(v);
-    }, args.test);
+    }, args.term);
 
     //this.echo('rulee');
 });

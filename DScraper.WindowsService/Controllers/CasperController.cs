@@ -25,16 +25,21 @@ namespace DScraper.WindowsService.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage Post()
+        public HttpResponseMessage Post(string outputEncoding = null)
         {
+            if (string.IsNullOrWhiteSpace(outputEncoding))
+            {
+                outputEncoding = Encoding.UTF8.WebName;
+            }
+
             var result = new HttpResponseMessage(HttpStatusCode.OK);
             var root = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
 
             var tempName = Guid.NewGuid().ToString("N");
             var scriptFile = Path.Combine(root, tempName + ".js");
             var resultFile = Path.Combine(root, tempName + ".txt");
-            var outputEncoding = Encoding.GetEncoding("GB2312");
-            var proxyLog = false;
+            var outputEncodingObj = Encoding.GetEncoding(outputEncoding);
+            var proxyLog = true;
 
             try
             {
@@ -48,7 +53,7 @@ namespace DScraper.WindowsService.Controllers
                 arguments.Add(scriptFile);
                 arguments.Add(resultFile);
                 arguments.Add(jsonArg);
-                arguments.Add(outputEncoding.EncodingName);
+                arguments.Add(outputEncodingObj.WebName);
                 arguments.Add(proxyLog.ToString().ToLower());
 
                 var executableName = typeof(Executable.Program).Assembly.ManifestModule.Name;
@@ -70,8 +75,8 @@ namespace DScraper.WindowsService.Controllers
                     p.Close();
                 }
 
-                var scrapeResult = File.ReadAllText(resultFile, outputEncoding);
-                result.Content = new StringContent(scrapeResult, outputEncoding);
+                var scrapeResult = File.ReadAllText(resultFile);
+                result.Content = new StringContent(scrapeResult);
                 result.Content.Headers.ContentType = new MediaTypeHeaderValue(MediaTypeNames.Text.Plain);
             }
             catch (Exception ex)

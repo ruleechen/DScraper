@@ -32,7 +32,7 @@ namespace DScraper.Executable
 
             var scraper = new CasperScraper();
 
-            if (string.IsNullOrWhiteSpace(outputEncoding))
+            if (!string.IsNullOrWhiteSpace(outputEncoding))
             {
                 scraper.OutputEncoding = Encoding.GetEncoding(outputEncoding);
             }

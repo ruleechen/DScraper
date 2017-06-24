@@ -15,7 +15,7 @@ namespace DScraper.ConsoleTest
 
             var script = AppDomain.CurrentDomain.BaseDirectory + @"\scripts\test.js";
 
-            var result = scraper.Execute(script, new { test = "rulee" });
+            var result = scraper.Execute(script, new { term = "rulee" });
 
             Console.WriteLine(result);
         }

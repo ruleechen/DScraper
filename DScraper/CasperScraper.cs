@@ -79,7 +79,7 @@ namespace DScraper
 
             if (OutputEncoding != null)
             {
-                flags.Add("--output-encoding=" + OutputEncoding.HeaderName);
+                flags.Add("--output-encoding=" + OutputEncoding.WebName);
             }
 
             var command = string.Format("casperjs {0} {1} {2}",
