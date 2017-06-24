@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="CasperScraper.cs" />
     <Compile Include="CasperSettings.cs" />
+    <Compile Include="LogFactory.cs" />
     <Compile Include="ScraperExtensions.cs" />
     <Compile Include="ProcessWatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

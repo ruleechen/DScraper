@@ -33,7 +33,7 @@ namespace DScraper.WindowsService.Controllers
             }
 
             var result = new HttpResponseMessage(HttpStatusCode.OK);
-            var root = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            var root = AppDomain.CurrentDomain.BaseDirectory;
 
             var tempFolder = Path.Combine(root, "Temporary");
             if (!Directory.Exists(tempFolder)) { Directory.CreateDirectory(tempFolder); }
@@ -88,6 +88,7 @@ namespace DScraper.WindowsService.Controllers
                 var type = typeof(CasperController);
                 var source = type.Namespace + "." + type.Name;
                 EventLog.WriteEntry(source, ex.ToString());
+                LogFactory.GetLogger().Error(source, ex);
             }
             finally
             {

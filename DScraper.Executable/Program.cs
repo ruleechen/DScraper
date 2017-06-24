@@ -22,13 +22,9 @@ namespace DScraper.Executable
 
             if (proxyLog)
             {
-                var logPath = Path.GetDirectoryName(scriptFile);
-                var logName = Path.GetFileNameWithoutExtension(typeof(Program).Assembly.ManifestModule.Name);
-                var logFile = Path.Combine(logPath, logName + ".log");
-                var logText = new List<string>(decodedArgs);
-                logText.Insert(0, DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
-                logText.Add(string.Empty);
-                File.AppendAllLines(logFile, logText);
+                var source = typeof(Program).Assembly.ManifestModule.Name;
+
+                LogFactory.GetLogger().Debug(source, string.Join(Environment.NewLine, decodedArgs));
             }
 
             try
