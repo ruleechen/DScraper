@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -29,10 +30,11 @@ namespace DScraper.WindowsService.Controllers
             var result = new HttpResponseMessage(HttpStatusCode.OK);
             var root = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
 
-            var fileName = Guid.NewGuid().ToString("N");
-            var scriptFile = Path.Combine(root, fileName + ".js");
-            var resultFile = Path.Combine(root, fileName + ".txt");
-            var encoding = Encoding.GetEncoding("GB2312");
+            var tempName = Guid.NewGuid().ToString("N");
+            var scriptFile = Path.Combine(root, tempName + ".js");
+            var resultFile = Path.Combine(root, tempName + ".txt");
+            var outputEncoding = Encoding.GetEncoding("GB2312");
+            var proxyLog = false;
 
             try
             {
@@ -40,12 +42,22 @@ namespace DScraper.WindowsService.Controllers
                 File.WriteAllText(scriptFile, content);
 
                 var dict = Request.GetQueryNameValuePairs().ToDictionary(x => x.Key, x => x.Value);
-                var jsonArg = HttpUtility.UrlEncode(JsonConvert.SerializeObject(dict));
+                var jsonArg = JsonConvert.SerializeObject(dict);
+
+                var arguments = new List<string>();
+                arguments.Add(scriptFile);
+                arguments.Add(resultFile);
+                arguments.Add(jsonArg);
+                arguments.Add(outputEncoding.EncodingName);
+                arguments.Add(proxyLog.ToString().ToLower());
+
+                var executableName = typeof(Executable.Program).Assembly.ManifestModule.Name;
+                var executableFile = Path.Combine(root, executableName);
 
                 using (var p = new Process())
                 {
-                    p.StartInfo.FileName = Path.Combine(root, "DScraper.Executable.exe");
-                    p.StartInfo.Arguments = "\"" + scriptFile + "\" \"" + resultFile + "\" \"" + jsonArg + "\" \"false\"";
+                    p.StartInfo.FileName = executableFile;
+                    p.StartInfo.Arguments = string.Join(" ", arguments.Select(x => $"\"{HttpUtility.UrlEncode(x)}\""));
                     p.StartInfo.CreateNoWindow = true;
                     p.StartInfo.UseShellExecute = false;
                     p.StartInfo.RedirectStandardError = true;
@@ -58,8 +70,8 @@ namespace DScraper.WindowsService.Controllers
                     p.Close();
                 }
 
-                var scrapeResult = File.ReadAllText(resultFile, encoding);
-                result.Content = new StringContent(scrapeResult, encoding);
+                var scrapeResult = File.ReadAllText(resultFile, outputEncoding);
+                result.Content = new StringContent(scrapeResult, outputEncoding);
                 result.Content.Headers.ContentType = new MediaTypeHeaderValue(MediaTypeNames.Text.Plain);
             }
             catch (Exception ex)
