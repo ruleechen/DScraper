@@ -21,53 +21,55 @@ namespace DScraper
 
             Process = process;
             Timeout = timeout;
+            Cancellation = new CancellationTokenSource();
         }
 
-        public Process Process { get; set; }
+        public Process Process { get; private set; }
+        public TimeSpan Timeout { get; private set; }
+        public CancellationTokenSource Cancellation { get; private set; }
+        public event EventHandler OnTimeout;
 
-        public TimeSpan Timeout { get; set; }
-
-        private class WatchTaskModel
+        public void StartWatch()
         {
-            public Process Process { get; set; }
-            public TimeSpan Timeout { get; set; }
-            public CancellationToken Token { get; set; }
-        }
+            if (Cancellation == null || Cancellation.IsCancellationRequested)
+            {
+                throw new Exception("Watcher has been disposed.");
+            }
 
-        private CancellationTokenSource _source;
-        private void StartWatch()
-        {
-            _source = new CancellationTokenSource();
-
-            Task.Factory.StartNew(
-                action: (state) =>
+            Task.Delay(Timeout, Cancellation.Token).ContinueWith((task) =>
+            {
+                if (Cancellation != null && !Cancellation.Token.IsCancellationRequested)
                 {
-                    var param = (WatchTaskModel)state;
-                    Thread.Sleep(param.Timeout);
-                    if (!param.Token.IsCancellationRequested)
+                    try
                     {
-                        param.Process.Close();
-                        param.Process.Dispose();
+                        Process.CloseMainWindow();
+                        Process.Close();
+                        Process.Dispose();
+
+                        if (!Process.HasExited)
+                        {
+                            Process.Kill();
+                        }
                     }
-                },
-                state: new WatchTaskModel
-                {
-                    Process = Process,
-                    Timeout = Timeout,
-                    Token = _source.Token
-                },
-                cancellationToken: _source.Token,
-                creationOptions: TaskCreationOptions.AttachedToParent | TaskCreationOptions.DenyChildAttach,
-                scheduler: TaskScheduler.Default
-            );
+                    catch { }
+                    finally
+                    {
+                        if (OnTimeout != null)
+                        {
+                            OnTimeout.Invoke(this, EventArgs.Empty);
+                        }
+                    }
+                }
+            });
         }
 
         public void Dispose()
         {
-            if (_source != null)
+            if (Cancellation != null)
             {
-                _source.Cancel();
-                _source.Dispose();
+                Cancellation.Cancel();
+                Cancellation.Dispose();
+                Cancellation = null;
             }
 
             Process = null;

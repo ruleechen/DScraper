@@ -17,7 +17,8 @@ namespace DScraper.Executable
             var resultFile = decodedArgs[1];
             var jsonArgument = decodedArgs[2];
             var outputEncoding = decodedArgs[3];
-            var proxyLog = (decodedArgs[4] == "true");
+            var timeout = decodedArgs[4];
+            var proxyLog = (decodedArgs[5] == "true");
 
             if (proxyLog)
             {
@@ -30,16 +31,28 @@ namespace DScraper.Executable
                 File.AppendAllLines(logFile, logText);
             }
 
-            var scraper = new CasperScraper();
-
-            if (!string.IsNullOrWhiteSpace(outputEncoding))
+            try
             {
-                scraper.OutputEncoding = Encoding.GetEncoding(outputEncoding);
+                var scraper = new CasperScraper();
+
+                if (!string.IsNullOrWhiteSpace(outputEncoding))
+                {
+                    scraper.OutputEncoding = Encoding.GetEncoding(outputEncoding);
+                }
+
+                if (!string.IsNullOrWhiteSpace(timeout))
+                {
+                    scraper.ExecuteTimeout = TimeSpan.Parse(timeout);
+                }
+
+                var scrapeResult = scraper.Execute(scriptFile, jsonArgument);
+
+                File.WriteAllText(resultFile, scrapeResult);
             }
-
-            var scrapeResult = scraper.Execute(scriptFile, jsonArgument);
-
-            File.WriteAllText(resultFile, scrapeResult);
+            catch (Exception ex)
+            {
+                File.WriteAllText(resultFile, ex.ToString());
+            }
         }
     }
 }

@@ -42,7 +42,7 @@ namespace DScraper
             DebuggerPort = 9001;
             DebuggerRemote = "http://localhost";
             OutputEncoding = Encoding.GetEncoding("GB2312");
-            ExecuteTimeout = TimeSpan.FromMinutes(1);
+            ExecuteTimeout = TimeSpan.FromMinutes(10);
         }
 
         public bool Debugger { get; set; }
@@ -104,6 +104,13 @@ namespace DScraper
                 if (timeout > TimeSpan.MinValue)
                 {
                     watcher = p.Watch(timeout);
+
+                    watcher.OnTimeout += (s, e) =>
+                    {
+                        result = "Process timeout";
+                    };
+
+                    watcher.StartWatch();
                 }
 
                 p.StartInfo.FileName = "python.exe";
