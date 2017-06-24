@@ -55,15 +55,19 @@ namespace DScraper
 
         public TimeSpan ExecuteTimeout { get; set; }
 
-        public string Execute(string scriptPath, object arg = null)
+        public string Execute(string scriptFile, object arg = null)
+        {
+            var jsonArg = JsonConvert.SerializeObject(arg ?? new { });
+            return Execute(scriptFile, jsonArg);
+        }
+
+        public string Execute(string scriptFile, string jsonArg = null)
         {
             var flags = new List<string>();
-            var arguments = new List<string>();
-            var arg0 = JsonConvert.SerializeObject(arg ?? new { });
 
-            if (!string.IsNullOrEmpty(arg0))
+            if (string.IsNullOrWhiteSpace(jsonArg))
             {
-                arguments.Add(HttpUtility.UrlEncode(arg0));
+                jsonArg = "{}";
             }
 
             if (Debugger && !HttpContext.Current.IsAvailable())
@@ -79,7 +83,7 @@ namespace DScraper
             }
 
             var command = string.Format("casperjs {0} {1} {2}",
-                string.Join(" ", flags), scriptPath, string.Join(" ", arguments));
+                string.Join(" ", flags), scriptFile, HttpUtility.UrlEncode(jsonArg));
 
             var result = ExecuteCasperScript(
                 command: command,

@@ -16,8 +16,7 @@ namespace DScraper.WindowsService
 
         protected override void OnStart(string[] args)
         {
-            var baseAddress = "http://localhost:9001/";
-            ApiHost = WebApp.Start<Startup>(url: baseAddress);
+            ApiHost = WebApp.Start<Startup>(url: Constants.ApiBaseAddress);
         }
 
         protected override void OnStop()

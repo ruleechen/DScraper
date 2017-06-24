@@ -68,6 +68,7 @@
     </Reference>
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
       <Private>True</Private>
@@ -126,9 +127,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DScraper\DScraper.csproj">
-      <Project>{d7dfa1dc-31b2-4d85-a4a4-75fd1e513f25}</Project>
-      <Name>DScraper</Name>
+    <ProjectReference Include="..\DScraper.Executable\DScraper.Executable.csproj">
+      <Project>{811521ca-ad1b-4c68-9b5b-4f1f0181ac39}</Project>
+      <Name>DScraper.Executable</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

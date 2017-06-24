@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DScraper.ConsoleTest", "DSc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DScraper.WindowsService", "DScraper.WindowsService\DScraper.WindowsService.csproj", "{1D230C57-4897-4090-AAFF-392E2553E80A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DScraper.Executable", "DScraper.Executable\DScraper.Executable.csproj", "{811521CA-AD1B-4C68-9B5B-4F1F0181AC39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1D230C57-4897-4090-AAFF-392E2553E80A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D230C57-4897-4090-AAFF-392E2553E80A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D230C57-4897-4090-AAFF-392E2553E80A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{811521CA-AD1B-4C68-9B5B-4F1F0181AC39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{811521CA-AD1B-4C68-9B5B-4F1F0181AC39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{811521CA-AD1B-4C68-9B5B-4F1F0181AC39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{811521CA-AD1B-4C68-9B5B-4F1F0181AC39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
