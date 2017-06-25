@@ -32,6 +32,11 @@ namespace DScraper.WindowsService.Controllers
                 outputEncoding = Encoding.UTF8.WebName;
             }
 
+            if (string.IsNullOrWhiteSpace(timeout))
+            {
+                timeout = TimeSpan.Zero.ToString();
+            }
+
             var result = new HttpResponseMessage(HttpStatusCode.OK);
             var root = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -42,6 +47,7 @@ namespace DScraper.WindowsService.Controllers
             var scriptFile = Path.Combine(root, tempFolder, tempName + ".js");
             var resultFile = Path.Combine(root, tempFolder, tempName + ".txt");
             var outputEncodingObj = Encoding.GetEncoding(outputEncoding);
+            var timeoutObj = TimeSpan.Parse(timeout);
             var proxyLog = true;
 
             try
@@ -57,7 +63,7 @@ namespace DScraper.WindowsService.Controllers
                 arguments.Add(resultFile);
                 arguments.Add(jsonArg);
                 arguments.Add(outputEncodingObj.WebName);
-                arguments.Add(timeout);
+                arguments.Add(timeoutObj.ToString());
                 arguments.Add(proxyLog.ToString().ToLower());
 
                 var executableName = typeof(Executable.Program).Assembly.ManifestModule.Name;

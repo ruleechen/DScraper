@@ -14,7 +14,7 @@ namespace DScraper
                 throw new ArgumentNullException("process");
             }
 
-            if (Timeout == TimeSpan.MinValue)
+            if (timeout <= TimeSpan.Zero)
             {
                 throw new ArgumentException("timeout");
             }

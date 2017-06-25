@@ -42,7 +42,7 @@ namespace DScraper
             DebuggerPort = 9001;
             DebuggerRemote = "http://localhost";
             OutputEncoding = Encoding.GetEncoding("GB2312");
-            ExecuteTimeout = TimeSpan.MinValue;
+            ExecuteTimeout = TimeSpan.Zero;
         }
 
         public bool Debugger { get; set; }
@@ -88,7 +88,7 @@ namespace DScraper
             var result = ExecuteCasperScript(
                 command: command,
                 workingAt: Path.GetDirectoryName(_settings.CasperjsExePath),
-                timeout: Debugger ? TimeSpan.MinValue : ExecuteTimeout);
+                timeout: Debugger ? TimeSpan.Zero : ExecuteTimeout);
 
             return result;
         }
@@ -101,7 +101,7 @@ namespace DScraper
             {
                 ProcessWatcher watcher = null;
 
-                if (timeout > TimeSpan.MinValue)
+                if (timeout > TimeSpan.Zero)
                 {
                     watcher = p.Watch(timeout);
 
