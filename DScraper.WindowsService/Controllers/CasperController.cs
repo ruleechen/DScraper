@@ -100,8 +100,10 @@ namespace DScraper.WindowsService.Controllers
                 }
 
                 var scrapeResult = File.ReadAllText(resultFile);
+
                 result.StatusCode = HttpStatusCode.OK;
                 result.Content = new StringContent(scrapeResult);
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue(MediaTypeNames.Text.Plain);
             }
             catch (Exception ex)
             {
@@ -112,6 +114,7 @@ namespace DScraper.WindowsService.Controllers
 
                 result.StatusCode = HttpStatusCode.InternalServerError;
                 result.Content = new StringContent(ex.ToString());
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue(MediaTypeNames.Text.Plain);
             }
             finally
             {
