@@ -12,8 +12,8 @@ namespace DScraper.WindowsService
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "{controller}/{file}",
+                defaults: new { file = RouteParameter.Optional }
             );
 
             appBuilder.UseWebApi(config);

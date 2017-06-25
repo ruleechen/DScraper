@@ -16,16 +16,21 @@ namespace DScraper.WindowsService.Controllers
 {
     public class CasperController : ApiController
     {
+        private const string CasperScripts_FolderName = "CasperScripts";
+
         [HttpGet]
-        public HttpResponseMessage Get(string message)
+        public HttpResponseMessage Get(string outputEncoding = null, string timeout = null)
         {
-            var res = new HttpResponseMessage(HttpStatusCode.OK);
-            res.Content = new StringContent(message, Encoding.UTF8);
-            return res;
+            return Core(false, outputEncoding, timeout);
         }
 
         [HttpPost]
         public HttpResponseMessage Post(string outputEncoding = null, string timeout = null)
+        {
+            return Core(true, outputEncoding, timeout);
+        }
+
+        private HttpResponseMessage Core(bool isPost, string outputEncoding = null, string timeout = null)
         {
             if (string.IsNullOrWhiteSpace(outputEncoding))
             {
@@ -37,9 +42,9 @@ namespace DScraper.WindowsService.Controllers
                 timeout = TimeSpan.Zero.ToString();
             }
 
-            var result = new HttpResponseMessage(HttpStatusCode.OK);
-            var root = AppDomain.CurrentDomain.BaseDirectory;
+            var result = new HttpResponseMessage();
 
+            var root = AppDomain.CurrentDomain.BaseDirectory;
             var tempFolder = Path.Combine(root, "Temporary");
             if (!Directory.Exists(tempFolder)) { Directory.CreateDirectory(tempFolder); }
 
@@ -52,8 +57,17 @@ namespace DScraper.WindowsService.Controllers
 
             try
             {
-                var content = Request.Content.ReadAsStringAsync().Result;
-                File.WriteAllText(scriptFile, content);
+                var scriptContent = string.Empty;
+                if (Request.GetRouteData().Values.ContainsKey("file"))
+                {
+                    var file = (Request.GetRouteData().Values["file"] ?? string.Empty).ToString();
+                    scriptContent = File.ReadAllText(Path.Combine(root, CasperScripts_FolderName, file));
+                }
+                else if (isPost)
+                {
+                    scriptContent = Request.Content.ReadAsStringAsync().Result;
+                }
+                File.WriteAllText(scriptFile, scriptContent);
 
                 var dict = Request.GetQueryNameValuePairs().ToDictionary(x => x.Key, x => x.Value);
                 var jsonArg = JsonConvert.SerializeObject(dict);
@@ -86,8 +100,8 @@ namespace DScraper.WindowsService.Controllers
                 }
 
                 var scrapeResult = File.ReadAllText(resultFile);
+                result.StatusCode = HttpStatusCode.OK;
                 result.Content = new StringContent(scrapeResult);
-                result.Content.Headers.ContentType = new MediaTypeHeaderValue(MediaTypeNames.Text.Plain);
             }
             catch (Exception ex)
             {
@@ -95,6 +109,9 @@ namespace DScraper.WindowsService.Controllers
                 var source = type.Namespace + "." + type.Name;
                 EventLog.WriteEntry(source, ex.ToString());
                 LogFactory.GetLogger().Error(source, ex);
+
+                result.StatusCode = HttpStatusCode.InternalServerError;
+                result.Content = new StringContent(ex.ToString());
             }
             finally
             {
