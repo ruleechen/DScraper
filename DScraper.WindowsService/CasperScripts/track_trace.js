@@ -3,9 +3,9 @@ phantom.casperTest = true;
 
 var casper = require('casper').create({
     clientScripts: [],
-    verbose: true,
+    verbose: false,
     pageSettings: {
-        loadImages: true,
+        loadImages: false,
         loadPlugins: true,
         userAgent: 'Mozilla/5.0 (Windows; U; Windows NT 5.1; nl; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'
     }
