@@ -27,11 +27,11 @@ Calling Service
 -------------
 put casper script in file (/build/output/CasperScripts/test.js)
 ```shell
-$ get http://localhost:9091/Casper/test.js?blno=1111&company=AAA
+$ get http://localhost:9091/casperjs/test.js?blno=1111&company=AAA
 ```
 put casper script in request body (raw string)
 ```shell
-$ post http://localhost:9091/Casper?blno=1111&company=AAA
+$ post http://localhost:9091/casperjs?blno=1111&company=AAA
 ```
 
 Sample CasperScraper

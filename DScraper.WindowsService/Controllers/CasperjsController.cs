@@ -14,7 +14,7 @@ using System.Web.Http;
 
 namespace DScraper.WindowsService.Controllers
 {
-    public class CasperController : ApiController
+    public class CasperjsController : ApiController
     {
         private const string CasperScripts_FolderName = "CasperScripts";
 
@@ -107,7 +107,7 @@ namespace DScraper.WindowsService.Controllers
             }
             catch (Exception ex)
             {
-                var type = typeof(CasperController);
+                var type = typeof(CasperjsController);
                 var source = type.Namespace + "." + type.Name;
                 EventLog.WriteEntry(source, ex.ToString());
                 LogFactory.GetLogger().Error(source, ex);
