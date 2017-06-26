@@ -25,11 +25,11 @@ $ /build/output/Commands/deploy-install.bat
 
 Calling Service
 -------------
-put casper script in /build/output/CasperScripts/test.js
+put casper script in file (/build/output/CasperScripts/test.js)
 ```shell
 $ get http://localhost:9091/Casper/test.js?&blno=1111&company=AAA
 ```
-put casper script in request body
+put casper script in request body (raw string)
 ```shell
 $ post http://localhost:9091/Casper?&blno=1111&company=AAA
 ```
