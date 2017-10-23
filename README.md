@@ -32,6 +32,8 @@ Call Service
 Puppeteer script
 ------------
 Please write the scirpt in the following format.
+
+For puppeteer api please reference to [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 ```js
 const puppeteer = require('puppeteer');
 
