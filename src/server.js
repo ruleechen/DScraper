@@ -21,7 +21,7 @@ const app = Router({
   notFound: function (req, res) {
     res.statusCode = 404
     res.end('Can not find the resource.');
-  }
+  },
 });
 
 // POST: http://localhost:7001/puppeteer/json
