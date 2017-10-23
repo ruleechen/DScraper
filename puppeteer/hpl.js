@@ -2,11 +2,11 @@ const fs = require('fs');
 const puppeteer = require('puppeteer');
 
 module.exports = async ({ blno }) => {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   page.setViewport({
     width: 1800,
-    height: 1000
+    height: 1000,
   });
 
   const home = `https://www.hapag-lloyd.com/en/online-business/tracing/tracing-by-booking.html?blno=${blno}`;
