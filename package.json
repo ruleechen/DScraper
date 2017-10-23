@@ -11,7 +11,9 @@
   "dependencies": {
     "body": "^5.1.0",
     "dotenv": "^4.0.0",
+    "fs-extra": "^4.0.2",
     "puppeteer": "^0.10.2",
-    "routes-router": "^4.3.0"
+    "routes-router": "^4.3.0",
+    "uuid": "^3.1.0"
   }
 }
