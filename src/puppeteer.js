@@ -15,7 +15,7 @@ const temporalize = async ({ scriptContent }) => {
   return scriptPath;
 };
 
-const execute = async ({ req, res, opts, body, scriptPath }) => {
+const execute = async ({ req, res, opts, body, query, scriptPath }) => {
   const fullPath = path.resolve(mainFolder, scriptPath);
 
   const exists = await fsExtra.exists(fullPath);
@@ -28,7 +28,11 @@ const execute = async ({ req, res, opts, body, scriptPath }) => {
     throw new Error('The specified script does not exports a function.');
   }
 
-  const data = await script({ req, res, opts, body });
+  const data = await script({
+    req, res, opts,
+    ...body,
+    ...query,
+  });
 
   return {
     fullPath,
