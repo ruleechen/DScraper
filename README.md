@@ -33,7 +33,7 @@ Puppeteer script
 ------------
 Please write the scirpt in the following format.
 
-For puppeteer api please reference to [Puppeteer](https://github.com/GoogleChrome/puppeteer).
+For puppeteer api please reference to [Puppeteer API](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md).
 ```js
 const puppeteer = require('puppeteer');
 
