@@ -10,6 +10,14 @@ const url = require('url');
 const querystring = require('querystring');
 const { temporalize, execute } = require('./puppeteer');
 
+const formalError = err => (
+  !(err instanceof Error) ? err : {
+    name: err.name,
+    message: err.message,
+    stack: err.stack,
+  }
+);
+
 // router
 const app = Router({
   // global error handlers
@@ -50,7 +58,7 @@ app.addRoute('/puppeteer/json', (req, res, opts) => {
       }
       result.data = data;
     } catch (ex) {
-      result.error = ex.message;
+      result.error = formalError(ex);
     }
     res.setHeader('content-type', 'application/json');
     res.end(JSON.stringify(result.error || result.data));
@@ -68,7 +76,7 @@ app.addRoute('/puppeteer/:script', async (req, res, opts) => {
     });
     result.data = data;
   } catch (ex) {
-    result.error = ex.message;
+    result.error = formalError(ex);
   }
   res.setHeader('content-type', 'application/json');
   res.end(JSON.stringify(result.error || result.data));
