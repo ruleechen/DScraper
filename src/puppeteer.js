@@ -30,18 +30,31 @@ const execute = async ({
     throw new Error('Can not find the specified script.');
   }
 
-  const script = require(fullPath);
-  if (typeof script !== 'function') {
-    throw new Error('The specified script does not exports a function.');
+  let data;
+  let error;
+
+  try {
+    const script = require(fullPath);
+    if (typeof script !== 'function') {
+      throw new Error('The specified script does not exports a function.');
+    }
+
+    data = await script({
+      req,
+      res,
+      opts,
+      ...body,
+      ...query,
+    });
+  } catch (ex) {
+    error = ex;
+  } finally {
+    delete require.cache[require.resolve(fullPath)];
   }
 
-  const data = await script({
-    req,
-    res,
-    opts,
-    ...body,
-    ...query,
-  });
+  if (error) {
+    throw error;
+  }
 
   return {
     fullPath,
