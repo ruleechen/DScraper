@@ -5,7 +5,6 @@
 const http = require('http');
 const Router = require('routes-router');
 const jsonBody = require('body/json');
-const anyBody = require('body/any');
 const fsExtra = require('fs-extra');
 const url = require('url');
 const querystring = require('querystring');
@@ -18,7 +17,7 @@ const app = Router({
     res.statusCode = 500;
     res.end(err.message);
   },
-  notFound: function (req, res) {
+  notFound: (req, res) => {
     res.statusCode = 404
     res.end('Can not find the resource.');
   },
@@ -29,7 +28,7 @@ const app = Router({
 // and header: { Content-Type: 'application/json' }
 app.addRoute('/puppeteer/json', (req, res, opts) => {
   jsonBody(req, res, async (err, body) => {
-    let result = {};
+    const result = {};
     let isTemp = false;
     try {
       if (err) {
@@ -61,10 +60,10 @@ app.addRoute('/puppeteer/json', (req, res, opts) => {
 // GET: http://localhost:7001/puppeteer/test.js
 // GET: http://localhost:7001/puppeteer/hpl%2Ftest.js
 app.addRoute('/puppeteer/:script', async (req, res, opts) => {
-  let result = {};
+  const result = {};
   try {
     const query = querystring.parse(url.parse(req.url).query);
-    const { data, fullPath } = await execute({
+    const { data } = await execute({
       req, res, opts, body: {}, query, scriptPath: opts.params.script,
     });
     result.data = data;

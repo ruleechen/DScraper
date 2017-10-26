@@ -15,7 +15,14 @@ const temporalize = async ({ scriptContent }) => {
   return scriptPath;
 };
 
-const execute = async ({ req, res, opts, body, query, scriptPath }) => {
+const execute = async ({
+  req,
+  res,
+  opts,
+  body,
+  query,
+  scriptPath,
+}) => {
   const fullPath = path.resolve(mainFolder, scriptPath);
 
   const exists = await fsExtra.exists(fullPath);
@@ -29,7 +36,9 @@ const execute = async ({ req, res, opts, body, query, scriptPath }) => {
   }
 
   const data = await script({
-    req, res, opts,
+    req,
+    res,
+    opts,
     ...body,
     ...query,
   });
