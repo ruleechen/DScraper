@@ -21,6 +21,7 @@ Call Service
 - Send http **GET** request to **http&#58;//localhost:7001/puppeteer/script-relative-path?blno=1234**
 
 - Send http **POST** request with json body to **http&#58;//localhost:7001/puppeteer/json?blno=1234**
+
 ```js
 {
   "script": "script-relative-path",
@@ -33,7 +34,10 @@ Puppeteer script
 ------------
 Please write the scirpt in the following format.
 
-For puppeteer api please reference to [Puppeteer API](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md).
+- For puppeteer api please reference to [Puppeteer API](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md).
+
+- For es6 programming grammar please reference to [ECMAScript 6](http://es6-features.org)
+
 ```js
 const puppeteer = require('puppeteer');
 
