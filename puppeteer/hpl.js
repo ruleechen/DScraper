@@ -1,7 +1,9 @@
-const puppeteer = require('puppeteer');
+/*
+* hpl
+*/
 
-module.exports = async ({ blno }) => {
-  const browser = await puppeteer.launch({ headless: true });
+module.exports = async ({ blno }, { getBrowser }) => {
+  const browser = await getBrowser({ headless: true });
   const page = await browser.newPage();
   page.setViewport({
     width: 1800,
@@ -15,8 +17,8 @@ module.exports = async ({ blno }) => {
   await page.click('.lowerScrollButton > input');
   await page.waitForSelector('table[summary="ScrollTable"]');
   await page.waitFor(2000);
+
   const html = await page.content();
-  await browser.close();
 
   return {
     html,

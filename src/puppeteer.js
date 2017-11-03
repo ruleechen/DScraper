@@ -6,6 +6,7 @@ const mainFolder = 'puppeteer';
 const fsExtra = require('fs-extra');
 const path = require('path');
 const uuidv4 = require('uuid/v4');
+const puppeteer = require('puppeteer');
 
 const temporalize = async ({ scriptContent }) => {
   const uuid = uuidv4();
@@ -32,6 +33,7 @@ const execute = async ({
 
   let data;
   let error;
+  let browser;
 
   try {
     const script = require(fullPath);
@@ -39,17 +41,33 @@ const execute = async ({
       throw new Error('The specified script does not exports a function.');
     }
 
+    const context = {
+      getBrowser: async (options) => {
+        if (!browser) {
+          browser = await puppeteer.launch(options || { headless: true });
+        }
+        return browser;
+      },
+    };
+
     data = await script({
       req,
       res,
       opts,
       ...body,
       ...query,
-    });
+    }, context);
   } catch (ex) {
     error = ex;
   } finally {
     delete require.cache[require.resolve(fullPath)];
+    if (browser) {
+      try {
+        await browser.close();
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
   }
 
   if (error) {
