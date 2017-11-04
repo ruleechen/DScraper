@@ -39,9 +39,14 @@ Please write the scirpt in the following format.
 - For es6 programming grammar please reference to [ECMAScript 6](http://es6-features.org)
 
 ```js
-const puppeteer = require('puppeteer');
+module.exports = async ({ blno }, { getBrowser }) => {
+  const browser = await getBrowser({ headless: true });
+  const page = await browser.newPage();
+  page.setViewport({
+    width: 2000,
+    height: 1000,
+  });
 
-module.exports = async ({ blno }) => {
   // crawler logic here
   // ...
 

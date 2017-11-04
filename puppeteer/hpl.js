@@ -6,7 +6,7 @@ module.exports = async ({ blno }, { getBrowser }) => {
   const browser = await getBrowser({ headless: true });
   const page = await browser.newPage();
   page.setViewport({
-    width: 1800,
+    width: 2000,
     height: 1000,
   });
 
