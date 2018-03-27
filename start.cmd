@@ -1,1 +1,1 @@
-npm install & npm run start
+cnpm install & cnpm run start

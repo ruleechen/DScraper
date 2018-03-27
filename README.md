@@ -5,6 +5,12 @@ Environment
 ------------
 - Install [Nodejs](https://nodejs.org/) v8.x.x
 
+- Install **cnpm**
+
+```bash
+$ npm install cnpm -g
+```
+
 Start Server
 ------------
 - Open **start.cmd** to start the server, default listen on port **7001**
