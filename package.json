@@ -4,7 +4,7 @@
   "description": "A web crawler based on Puppeteer",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node ."
   },
   "author": "Rulee Chen",
   "license": "MIT",
