@@ -4,7 +4,11 @@
   "description": "A web crawler based on Puppeteer",
   "main": "index.js",
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "service-install": "node ./service/windows --install",
+    "service-uninstall": "node ./service/windows --uninstall",
+    "service-start": "node ./service/windows --start",
+    "service-stop": "node ./service/windows --stop"
   },
   "author": "Rulee Chen",
   "license": "MIT",
