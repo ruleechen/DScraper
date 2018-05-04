@@ -3,12 +3,15 @@
 */
 
 const path = require('path');
-const { Service } = require('node-windows');
+const { Service, EventLogger } = require('node-windows');
+
+const serviceName = 'DScraper.Puppeteer';
+const log = new EventLogger(serviceName);
 
 const svc = new Service({
-  name: 'DScraper.Puppeteer',
+  name: serviceName,
   description: 'DScraper (puppeteer) Windows Service',
-  script: path.resolve(__dirname, '../index.js'),
+  script: path.resolve(__dirname, './serviceRun.js'),
 });
 
 svc.on('install', () => {
@@ -16,7 +19,7 @@ svc.on('install', () => {
 });
 
 svc.on('error', (ex) => {
-  console.error(`${ex}`);
+  log.error(`${ex}`);
 });
 
 const args = process.argv.slice(2);
@@ -39,7 +42,7 @@ switch (action) {
     break;
   }
   default: {
-    console.warn(`Unsupported action ${action}`);
+    log.warn(`Unsupported action ${action}`);
     break;
   }
 }
