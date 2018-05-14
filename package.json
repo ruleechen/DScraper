@@ -19,6 +19,7 @@
     "node-windows": "^0.1.14",
     "puppeteer": "^1.3.0",
     "routes-router": "^4.3.0",
+    "username": "^3.0.0",
     "uuid": "^3.2.1"
   },
   "devDependencies": {

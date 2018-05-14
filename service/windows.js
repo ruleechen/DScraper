@@ -6,7 +6,7 @@ const path = require('path');
 const { Service, EventLogger } = require('node-windows');
 
 const serviceName = 'DScraper.Puppeteer';
-const log = new EventLogger(serviceName);
+const systemLog = new EventLogger(serviceName);
 
 const svc = new Service({
   name: serviceName,
@@ -14,12 +14,16 @@ const svc = new Service({
   script: path.resolve(__dirname, './serviceRun.js'),
 });
 
+svc.user.domain = 'RCOFFICE';
+svc.user.account = 'rulee.chen';
+svc.user.password = 'litchi@2017';
+
 svc.on('install', () => {
   svc.start();
 });
 
 svc.on('error', (ex) => {
-  log.error(`${ex}`);
+  systemLog.error(`${ex}`);
 });
 
 const args = process.argv.slice(2);
@@ -42,7 +46,7 @@ switch (action) {
     break;
   }
   default: {
-    log.warn(`Unsupported action ${action}`);
+    systemLog.warn(`Unsupported action ${action}`);
     break;
   }
 }
