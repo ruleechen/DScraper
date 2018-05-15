@@ -14,10 +14,6 @@ const svc = new Service({
   script: path.resolve(__dirname, './serviceRun.js'),
 });
 
-svc.user.domain = 'RCOFFICE';
-svc.user.account = 'rulee.chen';
-svc.user.password = 'litchi@2017';
-
 svc.on('install', () => {
   svc.start();
 });

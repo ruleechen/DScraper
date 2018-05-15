@@ -11,11 +11,10 @@ dotenv.config({ path: './.env' });
 
 log.info('[index] start');
 
-username().then((name) => {
-  log.info(`[index] user ${name}`);
-});
-
 const instance = server.create();
 instance.listen(process.env.port, () => {
-  log.info(`[index] server is listening on http://localhost:${process.env.port}`);
+  log.info(`[server] listening on http://localhost:${process.env.port}`);
+  username().then((name) => {
+    log.info(`[server] user ${name}`);
+  });
 });
