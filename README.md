@@ -3,7 +3,7 @@ A web crawler local server for scraping anything you want. The server based on [
 
 Environment
 ------------
-- Install [Nodejs](https://nodejs.org/) v8.x.x
+- Install [Nodejs](https://nodejs.org/) v14+
 
 - Install **cnpm**
 
@@ -46,7 +46,13 @@ Please write the scirpt in the following format.
 
 ```js
 module.exports = async ({ blno }, { getBrowser }) => {
-  const browser = await getBrowser({ headless: true });
+  const browser = await getBrowser({
+    headless: true,
+    args: [
+      '--incognito',
+      '--start-maximized',
+    ],
+  });
   const page = await browser.newPage();
   page.setViewport({
     width: 2000,

@@ -5,12 +5,12 @@
 const mainFolder = 'puppeteer';
 const fsExtra = require('fs-extra');
 const path = require('path');
-const uuidv4 = require('uuid/v4');
+const uuid = require('uuid');
 const puppeteer = require('puppeteer');
 
 const temporalize = async ({ scriptContent }) => {
-  const uuid = uuidv4();
-  const scriptPath = `temp/${uuid}.js`;
+  const randomId = uuid.v4();
+  const scriptPath = `temp/${randomId}.js`;
   const fullPath = path.resolve(mainFolder, scriptPath);
   await fsExtra.writeFile(fullPath, scriptContent, { encoding: 'utf8' });
   return scriptPath;

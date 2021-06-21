@@ -1,10 +1,10 @@
 {
   "name": "dscraper",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A web crawler based on Puppeteer",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
+    "start": "node --inspect .",
     "service-install": "node ./service/windows --install",
     "service-uninstall": "node ./service/windows --uninstall",
     "service-start": "node ./service/windows --start",
@@ -14,17 +14,17 @@
   "license": "MIT",
   "dependencies": {
     "body": "^5.1.0",
-    "dotenv": "^5.0.1",
-    "fs-extra": "^6.0.0",
+    "dotenv": "^10.0.0",
+    "fs-extra": "^10.0.0",
     "node-windows": "^0.1.14",
-    "puppeteer": "^1.3.0",
-    "routes-router": "^4.3.0",
-    "username": "^3.0.0",
-    "uuid": "^3.2.1"
+    "puppeteer": "^10.0.0",
+    "routes-router": "^4.3.1",
+    "username": "^5.1.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.11.0"
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4"
   }
 }
