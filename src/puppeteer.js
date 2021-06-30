@@ -6,7 +6,11 @@ const mainFolder = 'puppeteer';
 const fsExtra = require('fs-extra');
 const path = require('path');
 const uuid = require('uuid');
-const puppeteer = require('puppeteer');
+// const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+
+puppeteer.use(StealthPlugin());
 
 const temporalize = async ({ scriptContent }) => {
   const randomId = uuid.v4();
