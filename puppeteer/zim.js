@@ -10,9 +10,9 @@ module.exports = async ({ billno }, { getBrowser }) => {
     ],
   });
 
-  // const context = await browser.createIncognitoBrowserContext();
-  // const page = await context.newPage();
-  const page = await browser.newPage();
+  const context = await browser.createIncognitoBrowserContext();
+  const page = await context.newPage();
+  // const page = await browser.newPage();
 
   page.setViewport({
     width: 2000,
@@ -48,6 +48,8 @@ module.exports = async ({ billno }, { getBrowser }) => {
     await page.waitForSelector('div[class="progress-block"]', {
       timeout: 90000,
     });
+
+    await sleep(30000);
   };
 
   await loadPage();
